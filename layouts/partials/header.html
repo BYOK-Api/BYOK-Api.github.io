@@ -1,0 +1,1058 @@
+<header class="header">
+  <div class="header-container">
+    <!-- Top Row -->
+    <div class="header-top">
+      <!-- COMMENTED OUT: Sidebar toggle buttons in header - using edge toggle arrows instead -->
+      <!-- Can be re-enabled later if needed -->
+      <!-- Sidebar Toggle Button - Left (furthest left) -->
+      <!--
+      <button class="sidebar-toggle sidebar-toggle-left" aria-label="Toggle Left Menu" id="sidebar-toggle-left"
+        title="Open Left Sidebar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="9" y1="3" x2="9" y2="21"></line>
+        </svg>
+      </button>
+      -->
+
+      <!-- Logo Section with integrated dropdown -->
+      <div class="header-logo">
+        {{ partial "logo.html" . }}
+      </div>
+
+      <!-- Center Navigation -->
+      <div class="header-center">
+        <!-- Hero Section - Page Title and Controls -->
+        <div class="hero-section">
+          <div class="hero-header">
+            <h1 class="hero-title">{{ .Title }}</h1>
+            {{ if eq .Section "ai-tools" }}
+            <button class="ai-help-btn page-help-btn" id="page-ai-help-toggle"
+                aria-label="Show AI Tools Help" title="How to use AI Tools">❓</button>
+            {{ end }}
+          </div>
+          
+          {{ with .Description }}
+          <p class="hero-description">{{ . }}</p>
+          {{ end }}
+
+          {{ if not .Params.disableSearch }}
+          <!-- Search and Filter Controls -->
+          <div class="search-filter-wrapper">
+            <div class="search-filter">
+              <input type="text" id="sectionSearch" placeholder="🔍 {{ .Params.searchPlaceholder | default "Search..." }}" class="search-input">
+              <div id="searchResults" class="search-results"></div>
+            </div>
+            
+            <div class="filter-sort-controls">
+              <!-- Tags Filter -->
+              <div class="filter-dropdown">
+                <label for="tagsFilter">Tags:</label>
+                <select id="tagsFilter" class="filter-select">
+                  <option value="all">All Tags</option>
+                </select>
+              </div>
+              
+              <!-- Categories Filter -->
+              <div class="filter-dropdown">
+                <label for="categoryFilter">Category:</label>
+                <select id="categoryFilter" class="filter-select">
+                  <option value="all">All Categories</option>
+                </select>
+              </div>
+              
+              <!-- Sort Options -->
+              <div class="sort-dropdown">
+                <label for="sortOptions">Sort by:</label>
+                <select id="sortOptions" class="sort-select">
+                  <option value="default">Default</option>
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                  <option value="date-desc">Newest First</option>
+                  <option value="date-asc">Oldest First</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+
+          {{ if eq .Section "ai-tools" }}
+          <!-- Help Section for AI Tools Page -->
+          <div class="page-ai-help-section" id="page-ai-help-section" style="display: none;">
+            <div class="ai-help-content">
+              <h4>How to Use AI Tools</h4>
+              <img src="/images/help/ai-tool-help.gif" alt="AI Tools Tutorial" class="ai-help-gif">
+              <p class="ai-help-description">
+              <ul class="ai-help-list">
+                <li>Configure your AI provider by selecting one from the dropdown. <a
+                    href="https://platform.openai.com/api-keys" id="page-provider-link"
+                    target="_blank" rel="noopener noreferrer">OpenAI API website</a></li>
+                <li>Enter your API key. <span id="page-key-format">Format: <code>sk-...</code></span>
+                </li>
+                <li>Optionally choose a specific model. <a href="https://openai.com/api/pricing/"
+                    id="page-pricing-link" target="_blank" rel="noopener noreferrer">View
+                    pricing</a> // <a href="https://platform.openai.com/docs/models"
+                    id="page-model-link" target="_blank" rel="noopener noreferrer">View Model</a>
+                </li>
+                <li>Visit any AI tool page to start using powerful AI-driven features like story
+                  generators, quiz
+                  creators, and more.</li>
+                <li>Your API key is stored securely in your browser session and never sent to our
+                  servers.</li>
+              </ul>
+              </p>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+
+        <nav class="header-main-nav">
+          {{- if .Site.Menus.main }}
+          <div class="main-nav-desktop">
+            {{- range .Site.Menus.main }}
+            {{- $current := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
+            <a href="{{ .URL | relLangURL }}" class="nav-item" {{- if $current }} aria-current="page" {{- end }}>
+              {{ .Name }}
+            </a>
+            {{- end }}
+          </div>
+          <button class="main-nav-mobile-toggle" id="mainNavToggle" aria-label="Main Navigation">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="main-nav-mobile-dropdown" id="mainNavDropdown">
+            {{- range .Site.Menus.main }}
+            {{- $current := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
+            <a href="{{ .URL | relLangURL }}" class="mobile-nav-item" {{- if $current }} aria-current="page" {{- end }}>
+              {{ .Name }}
+            </a>
+            {{- end }}
+          </div>
+          {{- end }}
+        </nav>
+      </div>
+
+      <!-- Right Section -->
+      <div class="header-right">
+
+        <!-- AI Provider Configuration -->
+        <div class="ai-profile">
+          <button class="ai-profile-btn" aria-label="AI Settings">
+            <svg class="ai-cog" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <circle cx="12" cy="12" r="5.5" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+            </svg>
+            <span class="ai-badge">AI</span>
+          </button>
+          <div class="ai-dropdown">
+            <div class="ai-dropdown-inner">
+              <div class="ai-dropdown-header">
+                AI Provider Settings
+                <button class="ai-help-btn" id="ai-help-toggle" aria-label="Show AI Tools Help"
+                  title="How to use AI Tools">❓</button>
+              </div>
+              <div class="ai-dropdown-content">
+                <!-- Top Row: GIF and Settings side-by-side -->
+                <div class="ai-top-row">
+                  <!-- Help Section (Left on wide screens) - GIF only -->
+                  <div class="ai-help-section" id="ai-help-section" style="display: none;">
+                    <div class="ai-help-content">
+                      <h4>How to Use AI Tools</h4>
+                      <img src="/images/help/ai-tool-help.gif" alt="AI Tools Tutorial" class="ai-help-gif">
+                    </div>
+                  </div>
+                  <!-- Settings Section (Right on wide screens) -->
+                  <div class="ai-settings-section">
+                    <div class="ai-field">
+                      <label for="ai-provider">Provider</label>
+                      <select id="ai-provider">
+                        <option value="openai">OpenAI</option>
+                        <option value="deepseek">DeepSeek</option>
+                        <option value="anthropic">Anthropic</option>
+                        <option value="gemini">Google Gemini</option>
+                        <option value="grok">Grok (X.AI)</option>
+                        <option value="mistral">Mistral AI</option>
+                        <option value="custom">Custom Server (Ollama/LMStudio)</option>
+                      </select>
+                    </div>
+                    <!-- Custom Server Configuration (shown only for custom provider) -->
+                    <div class="ai-field" id="ai-custom-config" style="display: none;">
+                      <label>Server Presets</label>
+                      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                        <button type="button" class="ai-preset-btn" data-preset="ollama"
+                          style="flex: 1; padding: 6px 12px; background: #444; border: 1px solid #666; color: #fff; border-radius: 4px; cursor: pointer;">Ollama
+                          (11434)</button>
+                        <button type="button" class="ai-preset-btn" data-preset="lmstudio"
+                          style="flex: 1; padding: 6px 12px; background: #444; border: 1px solid #666; color: #fff; border-radius: 4px; cursor: pointer;">LM
+                          Studio (1234)</button>
+                      </div>
+                      <div style="display: flex; gap: 10px; align-items: flex-end;">
+                        <div style="flex: 0 0 100px;">
+                          <label for="ai-custom-protocol">Protocol</label>
+                          <select id="ai-custom-protocol" style="width: 100%;">
+                            <option value="http">http://</option>
+                            <option value="https">https://</option>
+                          </select>
+                        </div>
+                        <div style="flex: 1;">
+                          <label for="ai-custom-host">Host</label>
+                          <input type="text" id="ai-custom-host" placeholder="localhost or IP address"
+                            value="localhost">
+                        </div>
+                      </div>
+                      <label for="ai-custom-port" style="margin-top: 8px;">Port</label>
+                      <input type="text" id="ai-custom-port" placeholder="11434" value="11434">
+                      <small class="ai-help">Custom servers must support OpenAI-compatible API. Enable CORS in server
+                        settings.</small>
+                    </div>
+                    <div class="ai-field">
+                      <label for="ai-key">API Key <span id="ai-key-optional"
+                          style="display: none; color: #999; font-weight: normal;">(Optional)</span></label>
+                      <input type="password" id="ai-key" placeholder="Enter your API key">
+                      <small class="ai-help">Keys are stored only for your session</small>
+                    </div>
+                    <div class="ai-field">
+                      <label for="ai-model">Model (Optional)</label>
+                      <select id="ai-model" disabled>
+                        <option value="">Enter API key to load models...</option>
+                      </select>
+                      <small id="ai-model-help" class="ai-help">Models are fetched from the selected provider after
+                        validating your API key.</small>
+                      <button class="ai-help-btn ai-tools-flashy-btn" onclick="window.location.href='/ai-tools/'"
+                        aria-label="Browse AI Hub" title="Browse AI Hub" style="font-size: 14px!important; margin-top: 12px; width: 100%; min-width: auto!important; padding: 10px 12px; white-space: nowrap; 
+                            background: linear-gradient(135deg, #ff8c69 0%, #008500 50%, #b38300 100%) !important;
+                            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4), inset 0 -3px 8px rgba(0, 0, 0, 0.2), inset 0 3px 8px rgba(255, 255, 255, 0.3) !important;
+                            border: 2px solid #ff6b35 !important;
+                            transform: translateY(-2px);
+                            animation: pulse-glow 2s ease-in-out infinite;
+                            font-weight: bold !important;
+                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                              cursor: pointer;">Browse AI Hub</button>
+
+                      <!-- Close button: closes the AI Provider Settings dropdown -->
+                      <button class="ai-help-btn ai-close-btn" id="ai-close-btn" type="button" aria-label="Close AI Settings" title="Close AI Settings"
+                        style="margin-top:8px; width:100%; min-width:auto; padding:10px 12px; background:#444; border:1px solid #666; color:#fff; border-radius:6px; cursor:pointer;">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Bottom Row: Instructions spanning full width -->
+                <div class="ai-instructions-row" id="ai-instructions-row" style="display: none;">
+                  <ul class="ai-help-list">
+                    <li>Configure your AI provider by selecting one from the dropdown. <a href="#" id="provider-link"
+                        target="_blank" rel="noopener noreferrer">Visit provider website</a></li>
+                    <li>Enter your API key. <span id="key-format">Format: <code>sk-...</code></span></li>
+                    <li>Optionally choose a specific model. <a href="#" id="pricing-link" target="_blank"
+                        rel="noopener noreferrer">View pricing</a> // <a href="#" id="models-link" target="_blank"
+                        rel="noopener noreferrer">View models</a></li>
+                    <li>Visit any AI tool page to start using powerful AI-driven features like story generators, quiz
+                      creators, and more.</li>
+                    <li>Your API key is stored securely in your browser session and never sent to our servers.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMENTED OUT: Sidebar toggle buttons in header - using edge toggle arrows instead -->
+        <!-- Can be re-enabled later if needed -->
+        <!-- Sidebar Toggle Button - Left (furthest left) -->
+        <!-- Sidebar Toggle Button - Right -->
+        <!--
+        <button class="sidebar-toggle sidebar-toggle-right" aria-label="Toggle Right Menu" id="sidebar-toggle-right"
+          title="Open Right Sidebar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="15" y1="3" x2="15" y2="21"></line>
+          </svg>
+        </button>
+        -->
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Persistent color management
+  function getStoredColor(key) {
+    return localStorage.getItem(key);
+  }
+
+  function setStoredColor(key, color) {
+    localStorage.setItem(key, color);
+  }
+
+  function removeStoredColor(key) {
+    localStorage.removeItem(key);
+  }
+
+  function applyStoredColors() {
+    // Apply stored link color
+    const linkColor = getStoredColor('randomLinkColor');
+    if (linkColor) {
+      document.querySelectorAll('a').forEach(function (link) {
+        link.style.color = linkColor;
+      });
+    }
+
+    // Apply stored paragraph color
+    const paragraphColor = getStoredColor('randomParagraphColor');
+    if (paragraphColor) {
+      document.querySelectorAll('p').forEach(function (paragraph) {
+        paragraph.style.color = paragraphColor;
+      });
+    }
+  }
+
+  // Change all <a> link font colors to a random color when the button is clicked
+  document.addEventListener('DOMContentLoaded', function () {
+    // Apply stored colors on page load
+    applyStoredColors();
+
+    var btn = document.getElementById('randomColorBtn');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+        setStoredColor('randomLinkColor', randomColor);
+        document.querySelectorAll('a').forEach(function (link) {
+          link.style.color = randomColor;
+        });
+        // Also apply color to the toggle control character
+        var toggleControl = document.getElementById('controlsToggle');
+        if (toggleControl) {
+          toggleControl.style.color = randomColor;
+        }
+      });
+    }
+
+    // Change paragraph font color when the second button is clicked
+    var postBtn = document.getElementById('randomPostColorBtn');
+    if (postBtn) {
+      postBtn.addEventListener('click', function () {
+        var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+        setStoredColor('randomParagraphColor', randomColor);
+        document.querySelectorAll('p').forEach(function (paragraph) {
+          paragraph.style.color = randomColor;
+        });
+        // Apply color to SVG logo text elements
+        document.querySelectorAll('.logo__svg .logo-text').forEach(function (element) {
+          element.setAttribute('fill', randomColor);
+        });
+      });
+    }
+
+    // Reset colors when the reset button is clicked
+    var resetBtn = document.getElementById('resetColorBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        // Remove stored colors
+        removeStoredColor('randomLinkColor');
+        removeStoredColor('randomParagraphColor');
+
+        // Reset actual colors
+        document.querySelectorAll('a').forEach(function (link) {
+          link.style.color = '';
+        });
+        document.querySelectorAll('p').forEach(function (paragraph) {
+          paragraph.style.color = '';
+        });
+        // Also reset the toggle control character color
+        var toggleControl = document.getElementById('controlsToggle');
+        if (toggleControl) {
+          toggleControl.style.color = '';
+        }
+        // Reset SVG logo text elements to default darkorange
+        document.querySelectorAll('.logo__svg .logo-text').forEach(function (element) {
+          element.setAttribute('fill', 'darkorange');
+        });
+      });
+    }
+
+    // Function to apply colors to newly loaded content
+    window.applyPersistentColors = function (container) {
+      const linkColor = getStoredColor('randomLinkColor');
+      const paragraphColor = getStoredColor('randomParagraphColor');
+
+      if (linkColor) {
+        const links = container ? container.querySelectorAll('a') : document.querySelectorAll('a');
+        links.forEach(function (link) {
+          link.style.color = linkColor;
+        });
+        // Also apply stored color to the toggle control character
+        var toggleControl = document.getElementById('controlsToggle');
+        if (toggleControl) {
+          toggleControl.style.color = linkColor;
+        }
+      }
+
+      if (paragraphColor) {
+        const paragraphs = container ? container.querySelectorAll('p') : document.querySelectorAll('p');
+        paragraphs.forEach(function (paragraph) {
+          paragraph.style.color = paragraphColor;
+        });
+        // Apply stored paragraph color to SVG logo text elements
+        document.querySelectorAll('.logo__svg .logo-text').forEach(function (element) {
+          element.setAttribute('fill', paragraphColor);
+        });
+      }
+    };
+
+    // Observe for dynamically added content
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach(function (node) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              // Apply colors to the newly added element and its children
+              window.applyPersistentColors(node);
+            }
+          });
+        }
+      });
+    });
+
+    // Start observing changes to the document
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // AI Configuration Management
+    const aiProfileBtn = document.querySelector('.ai-profile-btn');
+    const aiDropdown = document.querySelector('.ai-dropdown');
+
+    // AI Profile dropdown management
+    if (aiProfileBtn && aiDropdown) {
+      aiProfileBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        aiDropdown.classList.toggle('open');
+      });
+
+      // Close dropdown when clicking outside (but not on AI elements)
+      document.addEventListener('click', function (e) {
+        if (aiDropdown.classList.contains('open')) {
+          const isClickInsideDropdown = aiDropdown.contains(e.target);
+          const isClickOnButton = aiProfileBtn.contains(e.target);
+
+          if (!isClickInsideDropdown && !isClickOnButton) {
+            aiDropdown.classList.remove('open');
+          }
+        }
+      });
+
+      // Prevent dropdown from closing when clicking inside it
+      aiDropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+
+      // Close button inside AI dropdown (explicit close)
+      const aiCloseBtn = document.getElementById('ai-close-btn');
+      if (aiCloseBtn) {
+        aiCloseBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (aiDropdown.classList.contains('open')) aiDropdown.classList.remove('open');
+          // Ensure click doesn't re-open the dropdown via other handlers
+          setTimeout(() => { aiProfileBtn.focus(); }, 10);
+        });
+      }
+    }
+
+    // AI Help Toggle
+    const aiHelpToggle = document.getElementById('ai-help-toggle');
+    const aiHelpSection = document.getElementById('ai-help-section');
+    const aiInstructionsRow = document.getElementById('ai-instructions-row');
+
+    if (aiHelpToggle && aiHelpSection) {
+      aiHelpToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (aiHelpSection.style.display === 'none' || aiHelpSection.style.display === '') {
+          aiHelpSection.style.display = 'block';
+          if (aiInstructionsRow) aiInstructionsRow.style.display = 'block';
+          aiHelpToggle.setAttribute('aria-label', 'Hide AI Tools Help');
+        } else {
+          aiHelpSection.style.display = 'none';
+          if (aiInstructionsRow) aiInstructionsRow.style.display = 'none';
+          aiHelpToggle.setAttribute('aria-label', 'Show AI Tools Help');
+        }
+      });
+    }
+
+    // AI Provider settings management
+    const aiProvider = document.getElementById('ai-provider');
+    const aiKey = document.getElementById('ai-key');
+    const aiModel = document.getElementById('ai-model');
+    const aiModelHelp = document.getElementById('ai-model-help');
+    // Retry counters for deferred loading of apiManager (after header merge)
+    let apiManagerRetryCount = 0;
+    const MAX_API_MANAGER_RETRIES = 25; // ~7.5s at 300ms interval
+
+    // Update API key placeholder based on provider
+    function updateApiKeyPlaceholder(provider) {
+      if (!aiKey) return;
+      const placeholders = {
+        openai: 'Enter your OpenAI API key (sk-...)',
+        deepseek: 'Enter your DeepSeek API key (sk-...)',
+        anthropic: 'Enter your Anthropic API key (sk-ant-...)',
+        gemini: 'Enter your Gemini API key (AIza...)',
+        grok: 'Enter your Grok API key (xai-...)',
+        mistral: 'Enter your Mistral API key',
+        custom: 'API key (optional for local servers)'
+      };
+      aiKey.placeholder = placeholders[provider] || 'Enter your API key';
+
+      // Show/hide optional label for custom provider
+      const optionalLabel = document.getElementById('ai-key-optional');
+      if (optionalLabel) {
+        optionalLabel.style.display = provider === 'custom' ? 'inline' : 'none';
+      }
+
+      // Show/hide custom server configuration
+      const customConfig = document.getElementById('ai-custom-config');
+      if (customConfig) {
+        customConfig.style.display = provider === 'custom' ? 'block' : 'none';
+      }
+    }
+
+    // Update provider-specific links in instructions
+    function updateProviderLinks(provider) {
+      const providerLink = document.getElementById('provider-link');
+      const keyFormat = document.getElementById('key-format');
+      const pricingLink = document.getElementById('pricing-link');
+      const modelsLink = document.getElementById('models-link');
+
+      const providerInfo = {
+        openai: {
+          url: 'https://platform.openai.com/api-keys',
+          name: 'OpenAI API website',
+          keyFormat: 'sk-...',
+          pricing: 'https://openai.com/api/pricing/',
+          models: 'https://platform.openai.com/docs/models'
+        },
+        deepseek: {
+          url: 'https://platform.deepseek.com/api_keys',
+          name: 'DeepSeek API website',
+          keyFormat: 'sk-...',
+          pricing: 'https://platform.deepseek.com/api-docs/pricing',
+          models: 'https://platform.deepseek.com/api-docs/models'
+        },
+        anthropic: {
+          url: 'https://console.anthropic.com/settings/keys',
+          name: 'Anthropic API website',
+          keyFormat: 'sk-ant-...',
+          pricing: 'https://www.anthropic.com/pricing',
+          models: 'https://docs.anthropic.com/en/docs/about-claude/models'
+        },
+        gemini: {
+          url: 'https://aistudio.google.com/app/apikey',
+          name: 'Google AI Studio',
+          keyFormat: 'AIza...',
+          pricing: 'https://ai.google.dev/pricing',
+          models: 'https://ai.google.dev/gemini-api/docs/models/gemini'
+        },
+        grok: {
+          url: 'https://console.x.ai/',
+          name: 'Grok (X.AI) Console',
+          keyFormat: 'xai-...',
+          pricing: 'https://x.ai/api',
+          models: 'https://docs.x.ai/docs'
+        },
+        mistral: {
+          url: 'https://console.mistral.ai/',
+          name: 'Mistral AI Console',
+          keyFormat: 'Alphanumeric string',
+          pricing: 'https://mistral.ai/technology/#pricing',
+          models: 'https://docs.mistral.ai/getting-started/models/'
+        },
+        custom: {
+          url: 'https://ollama.com/',
+          name: 'Ollama / LM Studio',
+          keyFormat: 'Optional',
+          pricing: 'https://github.com/ollama/ollama',
+          models: 'https://ollama.com/library'
+        }
+      };
+
+      const info = providerInfo[provider] || providerInfo.openai;
+
+      if (providerLink) {
+        providerLink.href = info.url;
+        providerLink.textContent = info.name;
+      }
+
+      if (keyFormat) {
+        keyFormat.innerHTML = `Format: <code>${info.keyFormat}</code>`;
+      }
+
+      if (pricingLink) {
+        pricingLink.href = info.pricing;
+      }
+
+      if (modelsLink) {
+        modelsLink.href = info.models;
+      }
+    }
+
+    // Reset model select to default state
+    function resetModelSelect() {
+      if (!aiModel) return;
+      const provider = aiProvider ? aiProvider.value : 'openai';
+      if (provider === 'custom') {
+        aiModel.innerHTML = '<option value="">Configure server to load models...</option>';
+        if (aiModelHelp) aiModelHelp.textContent = 'Models will be fetched from your custom server after configuration.';
+      } else {
+        aiModel.innerHTML = '<option value="">Enter API key to load models...</option>';
+        if (aiModelHelp) aiModelHelp.textContent = 'Models are fetched from the selected provider after validating your API key.';
+      }
+      aiModel.disabled = true;
+    }
+
+    // Load models from API provider
+    async function tryLoadModels() {
+      // Wait for apiManager & utils to be available (they may load after header now)
+      if (!window.apiManager || !window.utils || !aiProvider || !aiKey || !aiModel) {
+        if (apiManagerRetryCount < MAX_API_MANAGER_RETRIES) {
+          apiManagerRetryCount++;
+          if (aiModelHelp) aiModelHelp.textContent = 'Waiting for AI engine...';
+          // Keep select disabled while waiting (avoid premature fallback)
+          if (aiModel) {
+            aiModel.disabled = true;
+          }
+          setTimeout(tryLoadModels, 300);
+        } else {
+          // After retries, show explicit error (no fallback models)
+          if (aiModel) {
+            aiModel.innerHTML = '<option value="">(Unavailable)</option>';
+            aiModel.disabled = true;
+          }
+          if (aiModelHelp) aiModelHelp.textContent = 'AI engine not ready. Models could not be loaded.';
+        }
+        return;
+      }
+
+      // apiManager is ready - reset retry counter
+      apiManagerRetryCount = 0;
+
+      const provider = aiProvider.value;
+      const key = (aiKey.value || '').trim();
+
+      // For custom provider, check if endpoint is configured
+      if (provider === 'custom') {
+        const customHost = document.getElementById('ai-custom-host');
+        const customPort = document.getElementById('ai-custom-port');
+        const customProtocol = document.getElementById('ai-custom-protocol');
+
+        if (!customHost || !customPort || !customHost.value.trim() || !customPort.value.trim()) {
+          resetModelSelect();
+          if (aiModelHelp) aiModelHelp.textContent = 'Please configure custom server host and port.';
+          return;
+        }
+
+        // Ensure endpoint is set in apiManager
+        if (window.apiManager) {
+          const protocol = customProtocol ? customProtocol.value : 'http';
+          window.apiManager.setCustomEndpoint(customHost.value.trim(), customPort.value.trim(), protocol);
+        }
+
+        // For custom provider, key is optional - always try to load models if endpoint is configured
+      } else {
+        // For other providers, validate API key
+        if (!provider || !window.utils.validateApiKey(key, provider)) {
+          resetModelSelect();
+          return;
+        }
+      }
+
+      try {
+        if (aiModelHelp) aiModelHelp.textContent = 'Loading models from provider...';
+        if (aiModel.parentElement) aiModel.parentElement.classList.add('loading');
+
+        const models = await window.apiManager.listModels(provider, key);
+
+        if (!Array.isArray(models) || models.length === 0) {
+          if (aiModelHelp) aiModelHelp.textContent = 'No chat models available for this key/provider.';
+          return;
+        }
+
+        // Render models with category headers as optgroups and bullet points
+        let html = '';
+        let currentCategory = null;
+
+        models.forEach(m => {
+          if (m.isHeader) {
+            // Close previous optgroup if exists
+            if (currentCategory !== null) {
+              html += '</optgroup>';
+            }
+            // Start new optgroup for category
+            html += `<optgroup label="${m.label}">`;
+            currentCategory = m.category;
+          } else {
+            // Regular model option - simple indentation without visual marker
+            const prefix = '    '; // 4 spaces for clean indentation
+            html += `<option value="${m.id}">${prefix}${m.label}</option>`;
+          }
+        });
+
+        // Close last optgroup if exists
+        if (currentCategory !== null) {
+          html += '</optgroup>';
+        }
+
+        aiModel.innerHTML = html;
+        aiModel.disabled = false;
+
+        // Select previously saved model or provider default
+        const desired = window.apiManager.getModel(provider) || window.apiManager.getProviderConfig(provider).defaultModel;
+        const found = Array.from(aiModel.options).some(opt => opt.value === desired);
+        aiModel.value = found ? desired : aiModel.options[0].value;
+
+        window.apiManager.setModel(aiModel.value, provider);
+        if (aiModelHelp) aiModelHelp.textContent = 'Models loaded.';
+
+      } catch (err) {
+        console.error('Failed to load models:', err);
+        if (aiModel) {
+          aiModel.innerHTML = '<option value="">(Error loading models)</option>';
+          aiModel.disabled = true;
+        }
+        if (aiModelHelp) aiModelHelp.textContent = (err && err.message ? err.message : 'Failed to load models from provider.');
+      } finally {
+        if (aiModel.parentElement) aiModel.parentElement.classList.remove('loading');
+      }
+    }
+
+    // Removed static fallback list per requirement; we now present explicit error states only.
+
+    // Main navigation mobile toggle
+    const mainNavToggle = document.getElementById('mainNavToggle');
+    const mainNavDropdown = document.getElementById('mainNavDropdown');
+    if (mainNavToggle && mainNavDropdown) {
+      mainNavToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isShowing = mainNavDropdown.classList.contains('show');
+        mainNavDropdown.classList.toggle('show');
+        mainNavToggle.classList.toggle('active', !isShowing);
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (mainNavDropdown.classList.contains('show') &&
+          !mainNavDropdown.contains(e.target) &&
+          e.target !== mainNavToggle) {
+          mainNavDropdown.classList.remove('show');
+          mainNavToggle.classList.remove('active');
+        }
+      });
+
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mainNavDropdown.classList.contains('show')) {
+          mainNavDropdown.classList.remove('show');
+          mainNavToggle.classList.remove('active');
+        }
+      });
+
+      // Prevent dropdown from closing when clicking inside it
+      mainNavDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }    // RSS toggle logic
+    const rssToggle = document.getElementById('rssToggle');
+    const rssMenu = document.getElementById('rssMenu');
+    if (rssToggle && rssMenu) {
+      rssToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = rssMenu.style.display === 'block';
+        rssMenu.style.display = open ? 'none' : 'block';
+      });
+      document.addEventListener('click', (e) => {
+        if (rssMenu.style.display === 'block' && !rssMenu.contains(e.target) && e.target !== rssToggle) {
+          rssMenu.style.display = 'none';
+        }
+      });
+      // Close on escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') rssMenu.style.display = 'none';
+      });
+    }
+
+    // Load saved settings
+    if (aiProvider && aiKey && aiModel) {
+      const savedProvider = localStorage.getItem('ai-provider') || 'openai';
+      const savedKey = sessionStorage.getItem('ai-key') || '';
+      const savedModel = localStorage.getItem('ai-model') || '';
+
+      aiProvider.value = savedProvider;
+      aiKey.value = savedKey;
+      aiModel.value = savedModel;
+
+      // Load custom server settings if custom provider
+      if (savedProvider === 'custom') {
+        const customHost = document.getElementById('ai-custom-host');
+        const customPort = document.getElementById('ai-custom-port');
+        const customProtocol = document.getElementById('ai-custom-protocol');
+        if (customHost && customPort && customProtocol) {
+          // Load from sessionStorage directly (apiManager might not be ready yet)
+          const storedHost = sessionStorage.getItem('ai_custom_host') || 'localhost';
+          const storedPort = sessionStorage.getItem('ai_custom_port') || '11434';
+          const storedProtocol = sessionStorage.getItem('ai_custom_protocol') || 'http';
+
+          customHost.value = storedHost;
+          customPort.value = storedPort;
+          customProtocol.value = storedProtocol;
+
+          // Set endpoint in apiManager if available
+          if (window.apiManager) {
+            window.apiManager.setCustomEndpoint(storedHost, storedPort, storedProtocol);
+          }
+        }
+      }
+
+      // Initialize
+      updateApiKeyPlaceholder(savedProvider);
+      updateProviderLinks(savedProvider);
+
+      // Attempt staged model loading allowing time for apiManager to attach
+      // For custom provider, try to load models if endpoint is configured (even without key)
+      // For other providers, only try if API key exists
+      if (savedKey || savedProvider === 'custom') {
+        setTimeout(() => tryLoadModels(), 150); // initial attempt
+        setTimeout(() => { if (aiModel.disabled) tryLoadModels(); }, 800); // second attempt
+      } else {
+        resetModelSelect();
+      }
+
+      // Listen for late apiManager availability
+      document.addEventListener('apiManagerReady', () => {
+        const provider = aiProvider.value;
+
+        // For custom provider, ensure endpoint is set in apiManager
+        if (provider === 'custom') {
+          const customHost = document.getElementById('ai-custom-host');
+          const customPort = document.getElementById('ai-custom-port');
+          const customProtocol = document.getElementById('ai-custom-protocol');
+          if (customHost && customPort && customProtocol && window.apiManager) {
+            window.apiManager.setCustomEndpoint(
+              customHost.value.trim(),
+              customPort.value.trim(),
+              customProtocol.value
+            );
+          }
+        }
+
+        // Try to load models if we have a key, or if it's custom provider with endpoint configured
+        if (savedKey || provider === 'custom') {
+          if (aiModel.disabled) {
+            apiManagerRetryCount = 0;
+            tryLoadModels();
+          }
+        }
+      });
+
+      // Event listeners
+      let keyInputTimeout;
+
+      aiProvider.addEventListener('change', function () {
+        const provider = this.value;
+        localStorage.setItem('ai-provider', provider);
+        updateApiKeyPlaceholder(provider);
+        updateProviderLinks(provider);
+
+        if (window.apiManager) window.apiManager.setProvider(provider);
+
+        // Load custom server settings if switching to custom provider
+        if (provider === 'custom') {
+          const customHost = document.getElementById('ai-custom-host');
+          const customPort = document.getElementById('ai-custom-port');
+          const customProtocol = document.getElementById('ai-custom-protocol');
+          if (customHost && customPort && customProtocol) {
+            // Load from sessionStorage directly
+            const storedHost = sessionStorage.getItem('ai_custom_host') || 'localhost';
+            const storedPort = sessionStorage.getItem('ai_custom_port') || '11434';
+            const storedProtocol = sessionStorage.getItem('ai_custom_protocol') || 'http';
+
+            customHost.value = storedHost;
+            customPort.value = storedPort;
+            customProtocol.value = storedProtocol;
+
+            // Set endpoint in apiManager if available
+            if (window.apiManager) {
+              window.apiManager.setCustomEndpoint(storedHost, storedPort, storedProtocol);
+            }
+          }
+        }
+
+        resetModelSelect();
+        if (aiKey.value.trim() || provider === 'custom') {
+          apiManagerRetryCount = 0;
+          setTimeout(tryLoadModels, 120);
+        }
+      });
+
+      aiKey.addEventListener('input', function () {
+        const key = this.value;
+        sessionStorage.setItem('ai-key', key);
+
+        if (window.apiManager) window.apiManager.setApiKey(key);
+
+        const provider = aiProvider ? aiProvider.value : 'openai';
+
+        clearTimeout(keyInputTimeout);
+        keyInputTimeout = setTimeout(() => {
+          // For custom provider, always try to load models if endpoint is configured
+          if (provider === 'custom') {
+            const customHost = document.getElementById('ai-custom-host');
+            const customPort = document.getElementById('ai-custom-port');
+            if (customHost && customPort && customHost.value.trim() && customPort.value.trim()) {
+              apiManagerRetryCount = 0;
+              tryLoadModels();
+            }
+          } else if (key.trim()) {
+            // For other providers, require API key
+            apiManagerRetryCount = 0;
+            tryLoadModels();
+          } else {
+            resetModelSelect();
+          }
+        }, 400);
+      });
+
+      aiModel.addEventListener('change', function () {
+        const model = this.value;
+        localStorage.setItem('ai-model', model);
+
+        if (window.apiManager) window.apiManager.setModel(model);
+      });
+
+      // Custom server preset buttons
+      const presetButtons = document.querySelectorAll('.ai-preset-btn');
+      presetButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          const preset = this.getAttribute('data-preset');
+          const customHost = document.getElementById('ai-custom-host');
+          const customPort = document.getElementById('ai-custom-port');
+          const customProtocol = document.getElementById('ai-custom-protocol');
+
+          if (preset === 'ollama') {
+            customHost.value = 'localhost';
+            customPort.value = '11434';
+            customProtocol.value = 'http';
+          } else if (preset === 'lmstudio') {
+            customHost.value = 'localhost';
+            customPort.value = '1234';
+            customProtocol.value = 'http';
+          }
+
+          // Save and update endpoint
+          if (window.apiManager) {
+            window.apiManager.setCustomEndpoint(customHost.value, customPort.value, customProtocol.value);
+            // Try to load models
+            resetModelSelect();
+            apiManagerRetryCount = 0;
+            setTimeout(tryLoadModels, 120);
+          }
+        });
+      });
+
+      // Custom host/port/protocol change handlers
+      const customHost = document.getElementById('ai-custom-host');
+      const customPort = document.getElementById('ai-custom-port');
+      const customProtocol = document.getElementById('ai-custom-protocol');
+      let customConfigTimeout;
+
+      if (customHost && customPort && customProtocol) {
+        const updateCustomEndpoint = function () {
+          clearTimeout(customConfigTimeout);
+          customConfigTimeout = setTimeout(() => {
+            const host = customHost.value.trim();
+            const port = customPort.value.trim();
+            const protocol = customProtocol.value;
+
+            if (host && port && window.apiManager) {
+              window.apiManager.setCustomEndpoint(host, port, protocol);
+              // Try to load models
+              resetModelSelect();
+              apiManagerRetryCount = 0;
+              setTimeout(tryLoadModels, 120);
+            }
+          }, 600);
+        };
+
+        customHost.addEventListener('input', updateCustomEndpoint);
+        customPort.addEventListener('input', updateCustomEndpoint);
+        customProtocol.addEventListener('change', updateCustomEndpoint);
+      }
+    }
+
+    // Update active navigation links
+    function updateActiveLinks() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const currentPath = window.location.pathname;
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const href = link.getAttribute('href');
+
+        if (href === currentPath ||
+          (href !== '/ai-tools/' && currentPath.startsWith(href))) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Initialize active links
+    updateActiveLinks();
+
+    // Handle category toggle functionality
+    const categoryToggles = document.querySelectorAll('.category-toggle');
+
+    categoryToggles.forEach(toggle => {
+      toggle.addEventListener('change', function () {
+        const icon = this.nextElementSibling.querySelector('.toggle-icon');
+        if (icon) {
+          icon.textContent = this.checked ? '−' : '+';
+        }
+      });
+    });
+
+    // Handle category title clicks (more reliable than label clicking)
+    const categoryTitles = document.querySelectorAll('.category-title');
+
+    categoryTitles.forEach(title => {
+      title.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const toggle = this.previousElementSibling;
+        if (toggle && toggle.classList.contains('category-toggle')) {
+          toggle.checked = !toggle.checked;
+
+          // Trigger change event manually
+          const event = new Event('change');
+          toggle.dispatchEvent(event);
+
+          const icon = this.querySelector('.toggle-icon');
+          if (icon) {
+            icon.textContent = toggle.checked ? '−' : '+';
+          }
+        }
+      });
+    });
+
+    // Initialize icons on page load
+    categoryToggles.forEach(toggle => {
+      const icon = toggle.nextElementSibling.querySelector('.toggle-icon');
+      if (icon) {
+        icon.textContent = toggle.checked ? '−' : '+';
+      }
+    });
+  });
+</script>

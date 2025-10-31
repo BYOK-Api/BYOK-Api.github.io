@@ -1,0 +1,34 @@
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+
+    <!-- Section-specific content -->
+    {{ if eq .Section "ai-tools" }}
+    <p class="footer-note">Requires your own AI API key (OpenAI, DeepSeek, Anthropic, Gemini, Grok) or a custom AI
+      server (Ollama, LM Studio) to function.</p>
+    {{ else if eq .Section "smelling-salts" }}
+    <p class="footer-note">Content originally from <a href="https://ammoniaaddicts.com" target="_blank"
+        rel="noopener">AmmoniaAddicts.com</a></p>
+    {{ end }}
+  </div>
+
+  {{/* Organization Schema for Footer */}}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{{ .Site.Title }}",
+      "url": "{{ .Site.BaseURL }}",
+      "logo": "{{ .Site.BaseURL | strings.TrimSuffix "/" }}/default.webp",
+      "description": "{{ .Site.Params.description }}",
+      "sameAs": [
+        "{{ .Site.BaseURL }}"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "{{ .Site.BaseURL }}contact/"
+      }
+    }
+    </script>
+</footer>

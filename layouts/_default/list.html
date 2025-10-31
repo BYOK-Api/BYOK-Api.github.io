@@ -1,0 +1,117 @@
+{{ define "main" }}
+{{ $paginator := .Paginate .Data.Pages }}
+<main class="posts" style="max-width: 1000px; margin: auto auto auto auto; padding: 0 2rem;">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="hero-title">{{ .Title }}</h1>
+        {{ with .Description }}
+        <p class="hero-description">{{ . }}</p>
+        {{ end }}
+
+        <!-- Search Filter -->
+        <div class="search-filter">
+            <input type="text" id="listSearch" placeholder="🔍 Search posts..." class="search-input">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
+
+    {{ if .Content }}
+    <div class="content" style="margin-bottom: 2rem;">{{ .Content }}</div>
+    {{ end }}
+
+    <!-- Posts Grid -->
+    <div class="items-grid" id="itemsGrid">
+        {{ range $paginator.Pages }}
+        <a href="{{ .Permalink }}" class="item-card" data-title="{{ .Title | lower }}"
+            data-description="{{ with .Summary }}{{ . | plainify | lower }}{{ end }}"
+            data-tags="{{ if .Params.tags }}{{ delimit .Params.tags " " | lower }}{{ end }}">
+            <div class="item-content">
+                <h3 class="item-title">{{ .Title }}</h3>
+                <div class="item-meta">
+                    <span class="item-date">
+                        {{ if .Site.Params.dateformShort }}
+                        {{ time.Format .Site.Params.dateformShort .Date }}
+                        {{ else }}
+                        {{ time.Format "January 2, 2006" .Date }}
+                        {{ end }}
+                    </span>
+                    {{ if .ReadingTime }}
+                    <span class="item-separator">•</span>
+                    <span class="item-reading-time">{{ .ReadingTime }} min read</span>
+                    {{ end }}
+                </div>
+                {{ with .Summary }}
+                <p class="item-description">{{ . | plainify | truncate 150 }}</p>
+                {{ end }}
+                {{ with .Params.tags }}
+                <div class="item-tags">
+                    {{ range first 3 . }}
+                    <span class="tag">{{ . }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </a>
+        {{ end }}
+    </div>
+
+    <!-- Pagination -->
+    {{ if gt $paginator.TotalPages 1 }}
+    {{ partial "pagination-list.html" . }}
+    {{ end }}
+</main>
+
+<!-- Search Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('listSearch');
+        const searchResults = document.getElementById('searchResults');
+        const itemsGrid = document.getElementById('itemsGrid');
+        const itemCards = itemsGrid.querySelectorAll('.item-card');
+
+        if (!searchInput) return;
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            if (searchTerm === '') {
+                itemCards.forEach(card => card.style.display = '');
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            let visibleCount = 0;
+
+            itemCards.forEach(card => {
+                const title = card.getAttribute('data-title');
+                const description = card.getAttribute('data-description');
+                const tags = card.getAttribute('data-tags');
+
+                if (title.includes(searchTerm) || description.includes(searchTerm) || tags.includes(searchTerm)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount > 0) {
+                searchResults.innerHTML = `<span style="color: var(--accent); font-weight: bold;">${visibleCount} item${visibleCount !== 1 ? 's' : ''} found</span>`;
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = '<span style="color: var(--accent);">No items found matching your search</span>';
+                searchResults.style.display = 'block';
+            }
+        });
+
+        searchInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                this.dispatchEvent(new Event('input'));
+                this.blur();
+            }
+        });
+    });
+</script>
+
+{{ end }}

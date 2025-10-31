@@ -1,0 +1,304 @@
+/* Fan Fiction Generator specific styles */
+/* General Warning Overlay Styles */
+#generalWarningOverlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    z-index: 100000 !important;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#generalWarningOverlay.show {
+    display: flex !important;
+}
+
+/* Adult Warning Overlay Styles */
+#adultWarningOverlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    z-index: 99999 !important;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#adultWarningOverlay.show {
+    display: flex !important;
+}
+
+.adult-warning-content {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #ff6b35;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Slider styles now unified in _ai-tools-page.scss */
+
+.spice-warning {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid #dc3545;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 10px;
+    color: #dc3545;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.checkbox-inline {
+    display: 0;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    white-space: wrap;
+}
+
+/* Tooltip Icon Styles - Universal for all tooltips */
+.tooltip-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    cursor: help;
+    vertical-align: middle;
+}
+
+.tooltip-icon .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 107, 53, 0.2);
+    border: 1px solid rgba(255, 107, 53, 0.5);
+    color: #ff6b35;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    /* place icon above other inline content to prevent clipping */
+}
+
+.tooltip-icon:hover .icon {
+    background: rgba(255, 107, 53, 0.3);
+    border-color: #ff6b35;
+    transform: scale(1.1);
+}
+
+/* Tooltip text positioning - appears to the right */
+.tooltip-icon .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    text-align: left;
+    border-radius: 8px;
+    padding: 12px 15px;
+    position: absolute;
+    z-index: 100505;
+    left: 130%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    border: 1px solid rgba(255, 107, 53, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    pointer-events: none;
+    font-weight: normal;
+    /* Allow long text to wrap and break words when necessary */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Tooltip arrow pointing left */
+.tooltip-icon .tooltiptext::after {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    margin-top: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #2c2c2c transparent transparent;
+}
+
+.tooltip-icon:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    /* allow interaction when tooltip is visible */
+    pointer-events: auto;
+    /* raise slightly when visible in case stacking contexts change */
+    z-index: 100510;
+}
+
+/* For labels in forms - ensure they have proper overflow handling */
+label {
+    position: relative;
+    overflow: visible !important;
+}
+
+.form-group {
+    position: relative;
+    overflow: visible !important;
+}
+
+/* Mobile responsive tooltips - show below on small screens */
+@media (max-width: 1024px) {
+    .tooltip-icon .tooltiptext {
+        width: 280px;
+        left: 50%;
+        top: auto;
+        bottom: 130%;
+        transform: translateX(-50%);
+    }
+    
+    .tooltip-icon .tooltiptext::after {
+        right: auto;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        margin-top: 0;
+        border-color: #2c2c2c transparent transparent transparent;
+    }
+}
+
+@media (max-width: 768px) {
+    .tooltip-icon .tooltiptext {
+        width: 240px;
+        font-size: 0.85rem;
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tooltip-icon .tooltiptext {
+        width: 200px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Compact story element labels on small screens: hide verbose text but keep checkbox/switch and icon */
+@media (max-width: 600px) {
+    .checkbox-group .checkbox-inline {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .checkbox-group .toggle-label {
+        display: none; /* hide long descriptive labels */
+    }
+    .checkbox-group .tooltip-icon {
+        margin-left: 4px;
+    }
+    /* Make the icon slightly larger and clearer on small screens */
+    .checkbox-group .tooltip-icon .icon {
+        width: 20px;
+        height: 20px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    /* extra compact for very small screens */
+    .checkbox-group .checkbox-inline {
+        gap: 6px;
+    }
+    .checkbox-group .tooltip-icon .icon {
+        width: 18px;
+        height: 18px;
+        font-size: 12px;
+    }
+}
+
+/* Tooltip styles now unified in _ai-tools-page.scss */
+
+/* Backwards compatibility: apply same visual behavior to any existing .tooltip elements */
+.tooltip, .tooltip-icon {
+    /* keep cursor and alignment consistent */
+    cursor: help;
+    vertical-align: middle;
+}
+
+/* Reuse the same tooltip text rules for .tooltip as for .tooltip-icon */
+.tooltip .tooltiptext,
+.tooltip-icon .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    text-align: left;
+    border-radius: 8px;
+    padding: 12px 15px;
+    position: absolute;
+    z-index: 100505;
+    left: 130%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    border: 1px solid rgba(255, 107, 53, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    pointer-events: none;
+    font-weight: normal;
+    /* Wrap long tooltip content; avoid one long unbreakable strings overflowing */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.tooltip .tooltiptext::after,
+.tooltip-icon .tooltiptext::after {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    margin-top: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #2c2c2c transparent transparent;
+}
+
+.tooltip:hover .tooltiptext,
+.tooltip-icon:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 1024px) {
+    .tooltip .tooltiptext,
+    .tooltip-icon .tooltiptext {
+        width: 280px;
+        left: 50%;
+        top: auto;
+        bottom: 130%;
+        transform: translateX(-50%);
+    }
+    .tooltip .tooltiptext::after,
+    .tooltip-icon .tooltiptext::after {
+        right: auto;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        margin-top: 0;
+        border-color: #2c2c2c transparent transparent transparent;
+    }
+}

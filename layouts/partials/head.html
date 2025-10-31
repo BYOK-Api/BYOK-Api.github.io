@@ -1,0 +1,96 @@
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+{{ if .Params.noindex }}
+<meta name="robots" content="noindex" />
+{{ end }}
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="{{ if .Params.author }}{{ .Params.author }}{{ else }}{{ range .Site.Author }}{{ . }} {{ end }}{{ end }}">
+<meta name="description"
+    content="{{ if .IsHome }}{{ .Site.Params.homeSubtitle }}{{ else }}{{ if .Params.Description }}{{ .Params.Description }}{{ else }}{{ .Summary | plainify }}{{ end }}{{ end }}" />
+<meta name="keywords"
+    content="{{ .Site.Params.keywords }}{{ if .Params.tags }}{{ range .Params.tags }}, {{ . }}{{ end }}{{ end }}" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="{{ .Site.Params.themeColor }}" />
+<link rel="canonical" href="{{ .Permalink }}" />
+
+{{ block "title" . }}
+<title>
+    {{ if .IsHome }}
+    {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} - {{ . }} {{ end }}
+    {{ else }}
+    {{ .Title }} :: {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} - {{ . }}{{ end }}
+    {{ end }}
+</title>
+{{ end }}
+
+{{ $opts := dict "transpiler" "libsass" "targetPath" "main.css" "outputStyle" "compressed" "enableSourceMap" true }}
+{{ with resources.Get "scss/main.scss" | toCSS $opts | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
+
+{{/* Section-specific CSS theme overrides (just color variables) */}}
+{{ $sec := lower .Section }}
+{{ if eq $sec "/" }}
+<link rel="stylesheet" href="/assets/css/section-ai-tools.css">
+{{ end }}
+{{ range $val := $.Site.Params.customCSS }}
+{{ if gt (len $val) 0 }}
+<link rel="stylesheet" type="text/css" href="{{ $val }}">
+{{ end }}
+{{ end }}
+
+{{- partial "favicons.html" . }}
+
+{{/* Include our enhanced SEO partial */}}
+{{ partial "seo.html" . }}
+
+{{/* Include specialized schema for specific content types */}}
+{{ partial "schema-specialized.html" . }}
+
+{{/* Removed Hugo internal templates - they cause duplicates with our custom SEO partial */}}
+{{/* {{ template "_internal/schema.html" . }} */}}
+{{/* {{ template "_internal/twitter_cards.html" . }} */}}
+{{/* {{ template "_internal/opengraph.html" . }} */}}
+
+{{ range .Params.categories }}
+<meta property="article:section" content="{{ . }}" />
+{{ end }}
+
+{{ if isset .Params "date" }}
+<meta property="article:published_time" content="{{ time .Date }}" />
+{{ end }}
+
+{{ with .OutputFormats.Get "rss" -}}
+{{ printf `
+<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+{{ end -}}
+
+{{ if .OutputFormats.Get "json" }}
+<link href="{{ if .OutputFormats.Get " json" }}{{ .Site.BaseURL }}feed.json{{ end }}" rel="alternate"
+    type="application/json" title="{{ .Site.Title }}" />
+{{ end }}
+
+{{- if templates.Exists "partials/extra-head.html" -}}
+{{ partial "extra-head.html" . }}
+{{- end }}
+
+{{- /* Google Analytics - Built-in Hugo support */ -}}
+{{- if .Site.Config.Services.GoogleAnalytics.ID }}
+{{ template "_internal/google_analytics.html" . }}
+{{- end }}
+
+{{- if $.Site.Params.plausibleDataDomain }}
+<script defer data-domain="{{ .Site.Params.plausibleDataDomain }}"
+    src="{{ .Site.Params.plausibleScriptSource }}"></script>
+{{- end}}
+
+<!-- Global AI tooling scripts (ensure header model controls work on non ai-tools pages) -->
+<script src="/shared/components/api-manager.js" defer></script>
+<script src="/shared/components/utils.js" defer></script>
+<script src="/shared/components/download-manager.js" defer></script>
+<script src="/shared/components/ai-interface.js" defer></script>
+
+<!-- Google Ads - In Page Ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1449040832183171"
+    crossorigin="anonymous"></script>

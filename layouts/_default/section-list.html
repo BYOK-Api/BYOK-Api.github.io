@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}">
+
+<head>
+    {{ partial "head.html" . }}
+    {{ if .Params.customCSS }}
+    <link rel="stylesheet" href="{{ .Params.customCSS }}">
+    {{ end }}
+</head>
+
+<body class="section-{{ lower .Section }}{{ if .Params.thumbnailOnlyView }} thumbnail-only-view{{ end }}">
+
+    <div class="container">
+        {{ partial "header.html" . }}
+
+        <div class="content">
+            <main class="main-content">
+
+                {{ .Content }}
+
+                <div class="services-grid" id="servicesGrid">
+                    {{/* Check if showing all descendant pages or just immediate children */}}
+                    {{ if .Params.showAllDescendants }}
+                    {{/* Show all leaf pages (products/items) recursively */}}
+                    {{ range .Site.RegularPages }}
+                    {{ if and (in .File.Dir $.File.Dir) (not .IsSection) (not .Params.hideFromListing) }}
+                    <a href="{{ .Permalink }}" class="service-card" data-title="{{ .Title | lower }}"
+                        data-description="{{ with .Description }}{{ . | lower }}{{ else }}{{ .Summary | plainify | lower }}{{ end }}"
+                        data-tags="{{ if .Params.tags }}{{ delimit .Params.tags " " | lower }}{{ end }}{{ if .Params.brand }} {{ .Params.brand | lower }}{{ end }}{{ if .Params.model }} {{ .Params.model | lower }}{{ end }}"
+                        data-tag-list="{{ if .Params.tags }}{{ delimit .Params.tags "||" }}{{ end }}"
+                        data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "||" }}{{ end }}"
+                        data-date="{{ .Date.Format "2006-01-02" }}"
+                        data-original-order="{{ .Weight }}">
+                        <div class="card-header">
+                            <h3>{{ .Title }}</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-content-wrapper">
+                                {{ if not $.Params.hideDescriptions }}
+                                {{ with .Description }}
+                                <p>{{ . }}</p>
+                                {{ else }}
+                                <p>{{ .Summary | plainify | truncate 150 }}</p>
+                                {{ end }}
+                                {{ end }}
+                                {{/* Show brand/category for context when showing all items */}}
+                                {{ if or .Params.brand .Params.model }}
+                                <div class="item-meta" style="margin-top: 0.5rem; font-size: 0.85em; opacity: 0.7;">
+                                    {{ if .Params.brand }}<span class="brand-label">{{ .Params.brand }}</span>{{ end }}
+                                    {{ if .Params.model }}<span class="model-label">{{ .Params.model }}</span>{{ end }}
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ if not $.Params.hideThumbnails }}
+                        <div class="card-thumbnail">
+                            {{ if .Params.thumbnail }}
+                            <img src="{{ .Params.thumbnail | absURL }}" alt="{{ .Title }}">
+                            {{ else if .Params.featured_image }}
+                            <img src="{{ .Params.featured_image | absURL }}" alt="{{ .Title }}">
+                            {{ else }}
+                            <img src="/android-chrome-192x192.png" alt="{{ .Title }}">
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </a>
+                    {{ end }}
+                    {{ end }}
+                    {{ else }}
+                    {{/* Default: Show only immediate child pages (sections/categories) */}}
+                    {{ range .Pages }}
+                    {{ if not .Params.hideFromListing }}
+                    <a href="{{ .Permalink }}" class="service-card" data-title="{{ .Title | lower }}"
+                        data-description="{{ with .Description }}{{ . | lower }}{{ else }}{{ .Summary | plainify | lower }}{{ end }}"
+                        data-tags="{{ if .Params.tags }}{{ delimit .Params.tags " " | lower }}{{ end }}"
+                        data-tag-list="{{ if .Params.tags }}{{ delimit .Params.tags "||" }}{{ end }}"
+                        data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "||" }}{{ end }}"
+                        data-date="{{ .Date.Format "2006-01-02" }}"
+                        data-original-order="{{ .Weight }}">
+                        <div class="card-header">
+                            <h3>{{ .Title }}</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-content-wrapper">
+                                {{ if not $.Params.hideDescriptions }}
+                                {{ with .Description }}
+                                <p>{{ . }}</p>
+                                {{ else }}
+                                <p>{{ .Summary | plainify | truncate 150 }}</p>
+                                {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ if not $.Params.hideThumbnails }}
+                        <div class="card-thumbnail">
+                            {{ if .Params.thumbnail }}
+                            <img src="{{ .Params.thumbnail | absURL }}" alt="{{ .Title }}">
+                            {{ else if .Params.featured_image }}
+                            <img src="{{ .Params.featured_image | absURL }}" alt="{{ .Title }}">
+                            {{ else }}
+                            <img src="/android-chrome-192x192.png" alt="{{ .Title }}">
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </a>
+                    {{ end }}
+                    {{ end }}
+                    {{ end }}
+                </div>
+
+                {{/* Optional info section (configurable per section) */}}
+                {{ if .Params.showInfoSection }}
+                <div class="info-section">
+                    <h2>{{ .Params.infoSectionTitle | default "Additional Information" }}</h2>
+                    <div class="info-grid">
+                        {{- range .Params.infoItems }}
+                        <div class="info-item">
+                            <h4>{{ .title }}</h4>
+                            <p>{{ .description }}</p>
+                        </div>
+                        {{- end }}
+                    </div>
+                </div>
+                {{ end }}
+
+                {{ if .Params.schemaType }}
+                {{/* Schema Markup */}}
+                {{ if .IsSection }}
+                <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "ItemList",
+                  "name": "{{ .Params.schemaName | default .Title }}",
+                  "description": "{{ .Params.schemaDescription | default .Description }}",
+                  "url": "{{ .Permalink }}",
+                  "numberOfItems": {{ len .Pages }},
+                  "itemListElement": [
+                    {{ range $index, $page := .Pages }}
+                    {
+                      "@type": "{{ $.Params.schemaItemType | default "Article" }}",
+                      "position": {{ add $index 1 }},
+                      {{ if eq $.Params.schemaItemType "SoftwareApplication" }}
+                      "name": "{{ $page.Title }}",
+                      "applicationCategory": "{{ $.Params.schemaCategory | default "Productivity" }}",
+                      {{ else if eq $.Params.schemaItemType "SoftwareSourceCode" }}
+                      "name": "{{ $page.Title }}",
+                      "programmingLanguage": "{{ $.Params.schemaProgrammingLanguage | default "Docker" }}",
+                      {{ else }}
+                      "headline": "{{ $page.Title }}",
+                      "datePublished": "{{ $page.Date.Format "2006-01-02" }}",
+                      {{ if $page.Lastmod }}"dateModified": "{{ $page.Lastmod.Format "2006-01-02" }}",{{ end }}
+                      "author": {
+                        "@type": "Person",
+                        "name": "{{ if $page.Params.author }}{{ $page.Params.author }}{{ else }}{{ $.Params.defaultAuthor | default "JonesCKevin" }}{{ end }}"
+                      },
+                      "keywords": "{{ if $page.Params.tags }}{{ delimit $page.Params.tags ", " }}{{ end }}",
+                      {{ end }}
+                      "description": "{{ if $page.Params.description }}{{ $page.Params.description }}{{ else }}{{ $page.Summary | plainify | truncate 160 }}{{ end }}",
+                      "url": "{{ $page.Permalink }}"
+                    }{{ if ne $index (sub (len $.Pages) 1) }},{{ end }}
+                    {{ end }}
+                  ]
+                }
+                </script>
+                {{ end }}
+                {{ end }}
+            </main>
+        </div>
+        {{ block "footer" . }}
+        {{ partial "footer.html" . }}
+        {{ end }}
+
+    </div>
+
+    {{ partial "javascript.html" . }}
+
+    {{ if not .Params.disableSearch }}
+    <!-- Search Filter Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('sectionSearch');
+            const searchResults = document.getElementById('searchResults');
+            const servicesGrid = document.getElementById('servicesGrid');
+            const serviceCards = Array.from(servicesGrid.querySelectorAll('.service-card'));
+            const tagsFilter = document.getElementById('tagsFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const sortOptions = document.getElementById('sortOptions');
+
+            let noResultsDiv = null;
+
+            // Extract and populate tags from all cards
+            function populateTags() {
+                const tagsSet = new Set();
+                serviceCards.forEach(card => {
+                    const tags = card.getAttribute('data-tag-list');
+                    if (tags) {
+                        tags.split('||').forEach(tag => {
+                            if (tag.trim()) {
+                                tagsSet.add(tag.trim());
+                            }
+                        });
+                    }
+                });
+
+                // Sort tags alphabetically
+                const sortedTags = Array.from(tagsSet).sort((a, b) => 
+                    a.toLowerCase().localeCompare(b.toLowerCase())
+                );
+
+                // Add options to the select dropdown
+                sortedTags.forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag.toLowerCase();
+                    option.textContent = tag;
+                    tagsFilter.appendChild(option);
+                });
+            }
+
+            // Extract and populate categories from all cards
+            function populateCategories() {
+                const categoriesSet = new Set();
+                serviceCards.forEach(card => {
+                    const categories = card.getAttribute('data-categories');
+                    if (categories) {
+                        categories.split('||').forEach(cat => {
+                            if (cat.trim()) {
+                                categoriesSet.add(cat.trim());
+                            }
+                        });
+                    }
+                });
+
+                // Sort categories alphabetically
+                const sortedCategories = Array.from(categoriesSet).sort((a, b) => 
+                    a.toLowerCase().localeCompare(b.toLowerCase())
+                );
+
+                // Add options to the select dropdown
+                sortedCategories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.toLowerCase();
+                    option.textContent = category;
+                    categoryFilter.appendChild(option);
+                });
+            }
+
+            // Initialize tags and categories
+            populateTags();
+            populateCategories();
+
+            // Function to apply all filters and sorting
+            function applyFiltersAndSort() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const selectedTag = tagsFilter.value;
+                const selectedCategory = categoryFilter.value;
+                const selectedSort = sortOptions.value;
+
+                // First, filter the cards
+                let visibleCards = serviceCards.filter(card => {
+                    // Search filter
+                    const title = card.getAttribute('data-title');
+                    const description = card.getAttribute('data-description');
+                    const tags = card.getAttribute('data-tags');
+                    const matchesSearch = searchTerm === '' || 
+                        title.includes(searchTerm) || 
+                        description.includes(searchTerm) || 
+                        tags.includes(searchTerm);
+
+                    // Tag filter
+                    const tagList = card.getAttribute('data-tag-list');
+                    const matchesTag = selectedTag === 'all' || 
+                        (tagList && tagList.toLowerCase().includes(selectedTag));
+
+                    // Category filter
+                    const categories = card.getAttribute('data-categories');
+                    const matchesCategory = selectedCategory === 'all' || 
+                        (categories && categories.toLowerCase().includes(selectedCategory));
+
+                    return matchesSearch && matchesTag && matchesCategory;
+                });
+
+                // Sort the visible cards
+                if (selectedSort !== 'default') {
+                    visibleCards.sort((a, b) => {
+                        switch (selectedSort) {
+                            case 'name-asc':
+                                return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'));
+                            case 'name-desc':
+                                return b.getAttribute('data-title').localeCompare(a.getAttribute('data-title'));
+                            case 'date-desc':
+                                return b.getAttribute('data-date').localeCompare(a.getAttribute('data-date'));
+                            case 'date-asc':
+                                return a.getAttribute('data-date').localeCompare(b.getAttribute('data-date'));
+                            default:
+                                return 0;
+                        }
+                    });
+                }
+
+                // Hide all cards first
+                serviceCards.forEach(card => card.style.display = 'none');
+
+                // Show and reorder visible cards
+                visibleCards.forEach(card => {
+                    card.style.display = '';
+                    servicesGrid.appendChild(card); // Reorder by re-appending
+                });
+
+                // Update search results display
+                searchResults.innerHTML = '';
+                if (noResultsDiv) noResultsDiv.remove();
+            }
+
+            // Event listeners
+            searchInput.addEventListener('input', applyFiltersAndSort);
+            tagsFilter.addEventListener('change', applyFiltersAndSort);
+            categoryFilter.addEventListener('change', applyFiltersAndSort);
+            sortOptions.addEventListener('change', applyFiltersAndSort);
+
+            searchInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    tagsFilter.value = 'all';
+                    categoryFilter.value = 'all';
+                    sortOptions.value = 'default';
+                    applyFiltersAndSort();
+                    this.blur();
+                }
+            });
+        });
+    </script>
+    {{ end }}
+
+    {{ if eq .Section "ai-tools" }}
+    <!-- AI Tools Help Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pageHelpToggle = document.getElementById('page-ai-help-toggle');
+            const pageHelpSection = document.getElementById('page-ai-help-section');
+
+            // Update provider-specific links on the page
+            function updatePageProviderLinks() {
+                const provider = localStorage.getItem('ai-provider') || 'openai';
+                const pageProviderLink = document.getElementById('page-provider-link');
+                const pageKeyFormat = document.getElementById('page-key-format');
+                const pagePricingLink = document.getElementById('page-pricing-link');
+
+                const providerInfo = {
+                    openai: {
+                        url: 'https://platform.openai.com/api-keys',
+                        name: 'OpenAI API website',
+                        keyFormat: 'sk-...',
+                        pricing: 'https://openai.com/api/pricing/'
+                    },
+                    deepseek: {
+                        url: 'https://platform.deepseek.com/api_keys',
+                        name: 'DeepSeek API website',
+                        keyFormat: 'sk-...',
+                        pricing: 'https://platform.deepseek.com/api-docs/pricing'
+                    },
+                    anthropic: {
+                        url: 'https://console.anthropic.com/settings/keys',
+                        name: 'Anthropic API website',
+                        keyFormat: 'sk-ant-...',
+                        pricing: 'https://www.anthropic.com/pricing'
+                    },
+                    gemini: {
+                        url: 'https://aistudio.google.com/app/apikey',
+                        name: 'Google AI Studio',
+                        keyFormat: 'AIza...',
+                        pricing: 'https://ai.google.dev/pricing'
+                    },
+                    grok: {
+                        url: 'https://console.x.ai/',
+                        name: 'Grok (X.AI) Console',
+                        keyFormat: 'xai-...',
+                        pricing: 'https://x.ai/api'
+                    },
+                    custom: {
+                        url: 'https://ollama.com/',
+                        name: 'Ollama / LM Studio',
+                        keyFormat: 'Optional',
+                        pricing: 'https://github.com/ollama/ollama'
+                    }
+                };
+
+                const info = providerInfo[provider] || providerInfo.openai;
+
+                if (pageProviderLink) {
+                    pageProviderLink.href = info.url;
+                    pageProviderLink.textContent = info.name;
+                }
+
+                if (pageKeyFormat) {
+                    pageKeyFormat.innerHTML = `Format: <code>${info.keyFormat}</code>`;
+                }
+
+                if (pagePricingLink) {
+                    pagePricingLink.href = info.pricing;
+                }
+            }
+
+            // Update links on page load
+            updatePageProviderLinks();
+
+            // Listen for provider changes from header
+            window.addEventListener('storage', function (e) {
+                if (e.key === 'ai-provider') {
+                    updatePageProviderLinks();
+                }
+            });
+
+            if (pageHelpToggle && pageHelpSection) {
+                pageHelpToggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+
+                    // Check if we're about to SHOW the help (currently hidden)
+                    const isCurrentlyHidden = pageHelpSection.style.display === 'none' || pageHelpSection.style.display === '';
+
+                    if (isCurrentlyHidden) {
+                        // SHOWING help - toggle page help AND open header
+                        pageHelpSection.style.display = 'block';
+                        pageHelpToggle.setAttribute('aria-label', 'Hide AI Tools Help');
+
+                        // Update links when showing help
+                        updatePageProviderLinks();
+
+                        // Open the header AI dropdown and show help
+                        const headerAiDropdown = document.querySelector('.ai-dropdown');
+                        const headerHelpSection = document.getElementById('ai-help-section');
+                        const headerInstructionsRow = document.getElementById('ai-instructions-row');
+                        const headerHelpToggle = document.getElementById('ai-help-toggle');
+
+                        if (headerAiDropdown && headerHelpSection) {
+                            // Open the AI dropdown in header
+                            headerAiDropdown.classList.add('open');
+
+                            // Show the help section and instructions row in header
+                            if (headerHelpSection.style.display !== 'block') {
+                                headerHelpSection.style.display = 'block';
+                                if (headerInstructionsRow) headerInstructionsRow.style.display = 'block';
+                                if (headerHelpToggle) {
+                                    headerHelpToggle.setAttribute('aria-label', 'Hide AI Tools Help');
+                                }
+                            }
+
+                            // Scroll to the header AI dropdown
+                            setTimeout(() => {
+                                headerAiDropdown.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }, 100);
+                        }
+                    } else {
+                        // HIDING help - only toggle page help, don't touch header
+                        pageHelpSection.style.display = 'none';
+                        pageHelpToggle.setAttribute('aria-label', 'Show AI Tools Help');
+                    }
+                });
+            }
+        });
+    </script>
+    {{ end }}
+</body>
+
+</html>

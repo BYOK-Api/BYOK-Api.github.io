@@ -1,0 +1,78 @@
+baseURL = "https://byok-api.github.io/"
+
+title        = "Ai Tool Hub - The Posts, The WriteUps, The CTFs, The Enjoyment"
+languageCode = "en"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+# Set to true to enable RSS feed generation
+enableRSS = true
+# Set to true to enable sitemap generation
+enableSitemap = true
+pagination.pagerSize  = 30
+
+# Enhanced sitemap configuration
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[services]
+  [services.googleAnalytics]
+    ID = "G-NSQ2K5MBJ7"
+
+ignoreLogs = ['warning-goldmark-raw-html']
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    codeFences = true             # Enable code fences to use custom renderer
+    noClasses = false             # Use CSS classes instead of inline styles
+    lineNos = false               # Disable built-in line numbers (we handle this ourselves)
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  # Theme settings
+  defaultTheme = "dark"              # Set default theme: "light", "dark", or "auto" (follows system preference)
+
+  homeSubtitle = "The toolsets for BYOK"              # Subtitle for home page
+  disableReadOtherPosts = true       # Set disableReadOtherPosts to true in order to hide the links to other posts.
+  enableSharingButtons = true        # Enable sharing buttons, if you like
+  enableGlobalLanguageMenu = false   # Show a global language switcher in the navigation bar
+
+  # Metadata mostly used in document's head
+  description = "Comprehensive cyber security resource covering digital forensics artifacts, CTF writeups, Useful AI tools, Docker containers setups. Expert analysis of Windows artifacts, registry forensics, malware analysis, and hands-on security tutorials for DFIR professionals and enthusiasts."
+  keywords = "homepage, artifacts, blog, 4n6, forensics, cyber security, ctf, writeup, nsec, ns3c, nsec, NorthSec, NorthSec, NSec, NS3C, NSec CTF, NS3C CTF, Cyber Security, Cybersecurity, Cyber Security Blog, Cyber Security Writeup, Cyber Security CTF, digital forensics, DFIR, incident response, malware analysis, registry forensics, Windows artifacts, security tools, AI cybersecurity, Docker security, penetration testing"
+  images = ["default.webp"]
+
+  [params.favicon]
+    mask = "#10b981"
+    msapplication = "#111827"
+
+[taxonomies]
+  category   = "categories"          # Used for categorizing posts
+  tag        = "tags"                # Used for tagging posts
+[permalinks]
+  tags       = "/tags/:slug/"        # tag pages
+  categories = "/categories/:slug/"  # category pages
+  home       = "/"                   # home page  
+
+[languages]
+  [languages.en]
+    title = "BYOK Toolset"
+
+  [languages.en.params]
+    subtitle  = "The Truest Bring Your Own API Key Toolset"
+    keywords = ""
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      path = "/images/logo.svg"
+      alt = "BYOK Toolset"
+      logoText = "BYOK"
+      logoHomeLink = "/"
