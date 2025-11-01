@@ -186,7 +186,96 @@
             const categoryFilter = document.getElementById('categoryFilter');
             const sortOptions = document.getElementById('sortOptions');
 
+            // Filter toggle elements
+            const filterToggle = document.getElementById('filterToggle');
+            const filterControls = document.getElementById('filterControls');
+
             let noResultsDiv = null;
+
+            // Filter toggle functionality - only active on mobile screens
+            function isMobileScreen() {
+                return window.innerWidth < 768;
+            }
+
+            function handleFilterToggle() {
+                if (!isMobileScreen()) {
+                    // On desktop, ensure filters are always visible
+                    filterControls.classList.remove('show');
+                    filterToggle.classList.remove('active');
+                    filterToggle.setAttribute('aria-expanded', 'false');
+                    return;
+                }
+
+                const isShowing = filterControls.classList.contains('show');
+                
+                if (isShowing) {
+                    filterControls.classList.remove('show');
+                    filterToggle.classList.remove('active');
+                    filterToggle.setAttribute('aria-expanded', 'false');
+                } else {
+                    filterControls.classList.add('show');
+                    filterToggle.classList.add('active');
+                    filterToggle.setAttribute('aria-expanded', 'true');
+                }
+            }
+
+            function handleClickOutside(event) {
+                if (!isMobileScreen()) return; // Only handle on mobile
+                
+                if (!filterToggle.contains(event.target) && !filterControls.contains(event.target)) {
+                    filterControls.classList.remove('show');
+                    filterToggle.classList.remove('active');
+                    filterToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
+
+            function handleKeyboard(event) {
+                if (!isMobileScreen()) return; // Only handle on mobile
+                
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleFilterToggle();
+                }
+                if (event.key === 'Escape') {
+                    filterControls.classList.remove('show');
+                    filterToggle.classList.remove('active');
+                    filterToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
+
+            if (filterToggle && filterControls) {
+                // Set up event listeners
+                filterToggle.addEventListener('click', handleFilterToggle);
+                document.addEventListener('click', handleClickOutside);
+                filterToggle.addEventListener('keydown', handleKeyboard);
+
+                // Prevent closing when clicking inside filter controls (mobile only)
+                filterControls.addEventListener('click', function(event) {
+                    if (isMobileScreen()) {
+                        event.stopPropagation();
+                    }
+                });
+
+                // Handle window resize to reset state when switching between desktop/mobile
+                window.addEventListener('resize', function() {
+                    if (!isMobileScreen()) {
+                        // When switching to desktop, reset mobile state
+                        filterControls.classList.remove('show');
+                        filterToggle.classList.remove('active');
+                        filterToggle.setAttribute('aria-expanded', 'false');
+                    } else {
+                        // When switching to mobile, set initial state
+                        filterToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                // Set initial state
+                if (isMobileScreen()) {
+                    filterToggle.setAttribute('aria-expanded', 'false');
+                } else {
+                    filterToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
 
             // Extract and populate tags from all cards
             function populateTags() {

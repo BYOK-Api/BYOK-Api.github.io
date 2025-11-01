@@ -78,6 +78,7 @@
   padding: 0.5rem 1rem;
   min-height: 60px;
   gap: 1rem;
+  position: relative; // allow absolute-positioned right section to anchor within header
 
   @media #{$media-size-tablet} {
     padding: 0.5rem 0.75rem;
@@ -112,10 +113,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
+  // Allow overlay dropdowns (like mobile filter) to be visible
+  overflow: visible;
+  // Reserve space for the right-side controls when right section is absolutely positioned
+  padding-right: 120px;
 
   @media #{$media-size-tablet} {
-    flex: 0 0 auto;
-    order: 3;
+    flex: 1 1 auto;
+    order: 2;
+    max-width: calc(100% - 120px); // Account for logo and AI button
+    // On tablet and below, the right section returns to normal flow; remove extra padding
+    padding-right: 0;
+  }
+
+  @media #{$media-size-phone-lg} {
+    flex: 1 1 auto;
+    max-width: calc(100% - 100px); // Reduce space for smaller buttons
+  }
+
+  @media #{$media-size-phone} {
+    max-width: calc(100% - 90px);
   }
 }
 
@@ -263,6 +281,8 @@
   transform: translateX(-50%) translateY(-8px);
   transition: all 0.2s ease;
   min-width: 280px;
+  max-width: calc(100vw - 20px); // Prevent overflow
+  box-sizing: border-box;
 
   &.show {
     opacity: 1;
@@ -270,25 +290,36 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  // At tablet breakpoint (1000px and below), use wider fixed positioning
+  // At tablet breakpoint, use fixed positioning and constrain to viewport
   @media #{$media-size-tablet} {
-    position: fixed;
-    top: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 500px;
-    min-width: 280px;
+    position: fixed !important;
+    top: 65px !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-8px) !important;
+    width: 90vw !important;
+    max-width: 90vw !important;
+    min-width: 0 !important;
+    margin: 0 5vw !important;
+    z-index: 1500 !important;
 
     &.show {
-      transform: translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(0) !important;
     }
   }
 
-  // At smaller screens, reduce width slightly
-  @media #{$media-size-phone} {
-    width: 95%;
-    max-width: 400px;
+  // At phone sizes, make it nearly full width
+  @media #{$media-size-phone-lg} {
+    width: 92vw !important;
+    max-width: 92vw !important;
+    margin: 0 4vw !important;
+  }
+
+  // Very small screens - maximize space
+  @media #{$media-size-phone-xs} {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    margin: 0 2.5vw !important;
+    top: 60px !important;
   }
 }
 
@@ -325,16 +356,33 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding-right: 2em;
-
-  @media #{$media-size-phone-medium} {
-    gap: 0.5rem;
-  }
+  padding-right: 1rem;
+  // Anchor to the right edge on desktop so it isn't pushed by center content
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1200;
 
   @media #{$media-size-tablet} {
-    flex: 1 1 auto;
-    justify-content: center;
-    order: 2;
+    // Return to normal document flow on tablet and smaller
+    position: static;
+    right: auto;
+    top: auto;
+    transform: none;
+    flex: 0 0 auto;
+    order: 3;
+    padding-right: 0.75rem;
+  }
+
+  @media #{$media-size-phone-lg} {
+    gap: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  @media #{$media-size-phone} {
+    gap: 0.25rem;
+    padding-right: 0.5rem;
   }
 }
 

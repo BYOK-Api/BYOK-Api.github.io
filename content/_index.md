@@ -25,8 +25,8 @@ disableSearch: false
 
 # Display Configuration
 hideThumbnails: false
-thumbnailOnlyView: false
-hideDescriptions: false
+thumbnailOnlyView: true
+hideDescriptions: true
 showAllDescendants: true
 
 # Featured Image
@@ -38,7 +38,6 @@ schemaName: "AI Tools Collection"
 schemaDescription: "Professional AI-powered tools for productivity and workflow enhancement"
 schemaItemType: "SoftwareApplication"
 schemaCategory: "Productivity"
-defaultAuthor: "JonesCKevin"
 
 # Info Section Configuration
 showInfoSection: true

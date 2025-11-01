@@ -11,7 +11,6 @@
     min-width: 44px;
     border-radius: 8px;
     border: none;
-    background: rgba(0, 0, 0, 0.4);
     color: #ff6b35;
     cursor: pointer;
     position: relative;
@@ -88,26 +87,49 @@
     visibility: hidden;
     transform: translateY(-4px);
     transition: all 0.2s ease;
+    max-width: calc(100vw - 20px); // Ensure it doesn't exceed viewport
+    box-sizing: border-box;
 
-    @media #{$media-size-phone-xs} {
+    // Prevent overflow on smaller tablets
+    @media #{$media-size-tablet-sm} {
         width: 90vw;
+        max-width: 90vw;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%) translateY(-4px);
+        
+        &.open {
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    // Phone sizes - center and constrain more aggressively
+    @media #{$media-size-phone-lg} {
+        position: fixed !important;
+        top: 60px !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(-4px) !important;
+        width: 92vw !important;
+        max-width: 92vw !important;
+        margin: 0 4vw !important;
+        z-index: 2000 !important;
+        
+        &.open {
+            transform: translateX(-50%) translateY(0) !important;
+        }
+    }
+
+    // Very small phones - maximize usable space
+    @media #{$media-size-phone-xs} {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        margin: 0 2.5vw !important;
     }
 
     &.open {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
-    }
-
-    @media #{$media-size-phone-medium} {
-        position: fixed !important;
-        top: 60px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 90vw !important;
-        max-width: 95vw !important;
-        box-sizing: border-box !important;
-        z-index: 2000 !important;
     }
 
     // Wider dropdown when help is shown on desktop

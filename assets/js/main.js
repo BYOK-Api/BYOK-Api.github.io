@@ -74,6 +74,7 @@ if (themeToggle) {
 
 // Code Block Enhancement
 document.addEventListener('DOMContentLoaded', function() {
+  // Note: Filter toggle logic lives in section-list.html to avoid duplication.
   // Add copy button to code blocks
   const codeBlocks = document.querySelectorAll('.code-block-wrapper');
   

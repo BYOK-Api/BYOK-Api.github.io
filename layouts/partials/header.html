@@ -44,7 +44,15 @@
               <div id="searchResults" class="search-results"></div>
             </div>
             
-            <div class="filter-sort-controls">
+            <!-- Filter Toggle Button -->
+            <button class="filter-toggle-btn" id="filterToggle" type="button" aria-label="Toggle Filters">
+              <span>Filters & Sort</span>
+              <svg class="filter-toggle-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            
+            <div class="filter-sort-controls" id="filterControls">
               <!-- Tags Filter -->
               <div class="filter-dropdown">
                 <label for="tagsFilter">Tags:</label>
