@@ -24,6 +24,7 @@
       <div class="header-center">
         <!-- Hero Section - Page Title and Controls -->
         <div class="hero-section">
+          {{ if not .IsPage }}
           <div class="hero-header">
             <h1 class="hero-title">{{ .Title }}</h1>
             {{ if eq .Section "ai-tools" }}
@@ -31,9 +32,10 @@
                 aria-label="Show AI Tools Help" title="How to use AI Tools">❓</button>
             {{ end }}
           </div>
-          
+
           {{ with .Description }}
           <p class="hero-description">{{ . }}</p>
+          {{ end }}
           {{ end }}
 
           {{ if not .Params.disableSearch }}
