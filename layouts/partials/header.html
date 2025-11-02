@@ -435,21 +435,50 @@
     });
 
     // AI Configuration Management
-    const aiProfileBtn = document.querySelector('.ai-profile-btn');
-    const aiDropdown = document.querySelector('.ai-dropdown');
+    function initializeAIDropdown() {
+      const aiProfileBtn = document.querySelector('.ai-profile-btn');
+      const aiDropdown = document.querySelector('.ai-dropdown');
 
-    // AI Profile dropdown management
-    if (aiProfileBtn && aiDropdown) {
-      aiProfileBtn.addEventListener('click', function (e) {
+      if (!aiProfileBtn || !aiDropdown) {
+        console.warn('AI dropdown elements not found:', {
+          button: !!aiProfileBtn,
+          dropdown: !!aiDropdown
+        });
+        return false;
+      }
+
+      // Remove any existing event listeners by cloning
+      const newAiProfileBtn = aiProfileBtn.cloneNode(true);
+      aiProfileBtn.parentNode.replaceChild(newAiProfileBtn, aiProfileBtn);
+
+      // AI Profile dropdown management
+      newAiProfileBtn.addEventListener('click', function (e) {
+        e.preventDefault();
         e.stopPropagation();
+        
+        const wasOpen = aiDropdown.classList.contains('open');
         aiDropdown.classList.toggle('open');
+        
+        // Force visibility and opacity for debugging
+        if (!wasOpen) {
+          aiDropdown.style.visibility = 'visible';
+          aiDropdown.style.opacity = '1';
+        } else {
+          // Let CSS handle the close animation
+          setTimeout(() => {
+            if (!aiDropdown.classList.contains('open')) {
+              aiDropdown.style.visibility = '';
+              aiDropdown.style.opacity = '';
+            }
+          }, 200);
+        }
       });
 
       // Close dropdown when clicking outside (but not on AI elements)
       document.addEventListener('click', function (e) {
         if (aiDropdown.classList.contains('open')) {
           const isClickInsideDropdown = aiDropdown.contains(e.target);
-          const isClickOnButton = aiProfileBtn.contains(e.target);
+          const isClickOnButton = newAiProfileBtn.contains(e.target);
 
           if (!isClickInsideDropdown && !isClickOnButton) {
             aiDropdown.classList.remove('open');
@@ -469,10 +498,15 @@
           e.stopPropagation();
           if (aiDropdown.classList.contains('open')) aiDropdown.classList.remove('open');
           // Ensure click doesn't re-open the dropdown via other handlers
-          setTimeout(() => { aiProfileBtn.focus(); }, 10);
+          setTimeout(() => { newAiProfileBtn.focus(); }, 10);
         });
       }
+
+      return true;
     }
+
+    // Initialize AI dropdown
+    const aiDropdownInitialized = initializeAIDropdown();
 
     // AI Help Toggle
     const aiHelpToggle = document.getElementById('ai-help-toggle');
