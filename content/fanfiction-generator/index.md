@@ -57,6 +57,50 @@ social_media:
 
 <link rel="stylesheet" href="fanfiction-generator.css">
 
+<!-- General Warning Overlay - Shown on first visit -->
+<div id="generalWarningOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); padding: 40px; border-radius: 15px; max-width: 600px; margin: 20px; border: 3px solid #ff6b35; box-shadow: 0 10px 50px rgba(255, 107, 53, 0.3);">
+    <h2 style="color: #ff6b35; margin-bottom: 25px; text-align: center; font-size: 1.8rem;">⚠️ Important Notice - Please Read</h2>
+    <div style="margin-bottom: 25px; line-height: 1.8; color: #e0e0e0; font-size: 1.05rem;">
+      <p style="margin-bottom: 15px;"><strong>Welcome to the Fan Fiction Generator.</strong> Before using this tool, please acknowledge the following:</p>
+      <ul style="margin-left: 20px; margin-bottom: 20px;">
+        <li style="margin-bottom: 10px;">📝 <strong>Responsible Use:</strong> This tool is for creative writing purposes only. Use it responsibly and ethically.</li>
+        <li style="margin-bottom: 10px;">🔞 <strong>Age Representation:</strong> All characters in generated stories are intentionally represented as adults (18+ years old), regardless of their age in source material.</li>
+        <li style="margin-bottom: 10px;">⚖️ <strong>Legal Compliance:</strong> You are responsible for ensuring your use complies with local laws and regulations.</li>
+        <li style="margin-bottom: 10px;">🎨 <strong>Fan Content:</strong> Respect intellectual property rights and use generated content appropriately.</li>
+        <li style="margin-bottom: 10px;">🛡️ <strong>Content Warnings:</strong> Higher spice levels and NSFW settings produce mature content. Additional warnings will appear when selecting explicit content options.</li>
+        <li style="margin-bottom: 10px;">💾 <strong>No Storage:</strong> We do not store your stories or API keys. All processing happens in your browser.</li>
+      </ul>
+      <p style="margin-bottom: 15px; padding: 15px; background: rgba(255, 107, 53, 0.1); border-left: 4px solid #ff6b35; border-radius: 5px;">
+        <strong>By clicking "I Understand and Agree" below, you acknowledge that you have read and agree to use this tool responsibly.</strong>
+      </p>
+    </div>
+    <div style="text-align: center;">
+      <button onclick="acknowledgeGeneralWarning()" style="background: linear-gradient(135deg, #ff6b35, #ff8c61); color: white; border: none; padding: 15px 40px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4); transition: all 0.3s ease;">
+        I Understand and Agree
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Adult Content Warning Overlay -->
+<div id="adultWarningOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); padding: 30px; border-radius: 12px; max-width: 500px; margin: 20px; border: 3px solid #dc3545; box-shadow: 0 10px 50px rgba(220, 53, 69, 0.3);">
+    <h3 style="color: #ff6b35; margin-bottom: 20px; text-align: center;">⚠️ Adult Content Confirmation</h3>
+    <div style="margin-bottom: 20px; line-height: 1.6; color: #e0e0e0;">
+      You have selected NSFW content. Please confirm:<br><br>
+      <strong>• You are 18 years of age or older</strong><br>
+      <strong>• All characters will be depicted as adults (18+)</strong><br>
+      <strong>• You understand this will contain explicit content</strong><br>
+      <strong>• You are using this responsibly</strong>
+    </div>
+    <div style="display: flex; gap: 15px; justify-content: center;">
+      <button onclick="acceptAdultContent()" style="background: #ff6b35; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">I Confirm (18+)</button>
+      <button onclick="declineAdultContent()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <h1 style="text-align: center; margin-bottom: 20px; color: #ff6b35;">Fan Fiction Generator</h1>
 <p style="text-align: center; margin-bottom: 8px; opacity: 0.95; font-weight:600; font-size:1.05rem;">Generate custom fanfiction instantly. Your favorite pairings for the assortment of reasons and topics.</p>
 
@@ -72,7 +116,6 @@ social_media:
 </p>
 
 <form id="fanfictionForm">
-  <div class="form-row">
     <div class="form-group">
       <label for="character1">Character 1 *</label>
       <input type="text" id="character1" placeholder="e.g., Hermione Granger, Tony Stark..." required>
@@ -81,8 +124,6 @@ social_media:
   <label for="character2">Character 2 *</label>
   <input type="text" id="character2" placeholder="e.g., Luke Skywalker, Jim Halpert..." required>
   </div>
-</div>
-<div class="form-row">
   <div class="form-group">
     <label for="sourceMedia1">Character 1 Source (Optional)</label>
     <input type="text" id="sourceMedia1" placeholder="e.g., Harry Potter, Marvel...">
@@ -91,9 +132,9 @@ social_media:
     <label for="sourceMedia2">Character 2 Source (Optional)</label>
     <input type="text" id="sourceMedia2" placeholder="e.g., Star Wars, The Office...">
   </div>
-</div>
-<div class="form-row">
 <div class="form-group">
+  <div class="options-two-column">
+    <div class="options-column">
   <label for="genre">Primary Story Genre *
     <span class="tooltip-icon">
       <span class="icon">?</span>
@@ -132,6 +173,7 @@ social_media:
       <span class="tooltiptext">Add a specific trope or narrative element to blend with your main genre. Popular fanfiction themes that add depth and flavor to your story.</span>
     </span>
   </label>
+  <div class="options-column">
   <select id="subGenre">
     <option value="">Choose a sub-genre...</option>
     <option value="slow-burn" title="Romantic relationships that develop very gradually over time, building tension and anticipation slowly">🔥 Slow Burn</option>
@@ -160,7 +202,7 @@ social_media:
 <input type="range" id="subGenreIntensity" min="1" max="10" value="5" oninput="updateSubGenreIntensity(this.value)"/>
 </div>
 </div>
-</div>
+</div></div></div>
 
 <div class="form-group">
   <label for="storyLength">Story Length</label>
@@ -186,7 +228,6 @@ social_media:
     <option value="nsfw">NSFW - Adult content (18+)</option>
   </select>
 </div>
-
 <div class="form-group">
   <label for="spiceMeter">🌶️ Spice Meter: <span id="spiceDisplay">1</span>/700
     <span class="tooltip-icon">
@@ -196,11 +237,11 @@ social_media:
   </label>
   <input type="range" id="spiceMeter" min="1" max="700" value="1" oninput="updateSpiceDisplay(this.value)"/>
   <div class="spice-scale">
-    <span>Innocent (1)</span>
-    <span>Romance (175)</span>
-    <span>Explicit (350)</span>
-    <span>Extreme (550)</span>
-    <span>MAX (700)</span>
+    <span>Innocent</span>
+    <span>Romance</span>
+    <span>Explicit</span>
+    <span>Extreme</span>
+    <span>MAX</span>
   </div>
   <div class="spice-warning" id="spiceWarning" style="display: none;">
     <strong>⚠️ WARNING:</strong> Higher spice levels may contain horrific violence, sexually explicit material, disturbing themes, or graphic content. Use responsibly and ensure compliance with local laws and platform guidelines.
@@ -224,7 +265,6 @@ social_media:
   </div>
   </div>
 </div>
-
 <div class="form-group">
 <label for="perspective">Narrative Perspective</label>
   <select id="perspective">
@@ -247,7 +287,8 @@ social_media:
 
 <div class="form-group">
   <label>Story Elements & Features</label>
-<div class="checkbox-group">
+    <div class="options-two-column">
+    <div class="options-column">
   <label class="checkbox-inline">
   <input type="checkbox" id="includeInternalThoughts" checked/>
   <span class="toggle-switch"><span class="toggle-slider"></span></span>
@@ -284,6 +325,8 @@ social_media:
     <span class="tooltiptext">Emphasize feelings, emotional growth, and the psychological journey of characters through their experiences.</span>
   </span>
 </label>
+</div>
+    <div class="options-column" style="margin-right:20px; border-left:1px solid #444; padding-left:20px;">
 <label class="checkbox-inline">
   <input type="checkbox" id="includeWorldBuilding"/>
   <span class="toggle-switch"><span class="toggle-slider"></span></span>
@@ -374,50 +417,6 @@ social_media:
   <p style="margin-top:12px; font-size:0.95rem;">Popular related searches: alchemised, alchemised fanfiction, wednesday x tyler fanfiction, fanfiction news, wednesday and tyler fanfiction, wednesday fanfiction, my life with the walter boys fanfiction, uma musume fanfiction, wednesday and enid fanfiction, the summer i turned pretty fanfiction, harry potter fanfiction100, harry potter98, ao386, fanfiction naruto86, ao3 fanfiction84.</p>
 </section>
 
-<!-- General Warning Overlay - Shown on first visit -->
-<div id="generalWarningOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 10000; align-items: center; justify-content: center;">
-  <div style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); padding: 40px; border-radius: 15px; max-width: 600px; margin: 20px; border: 3px solid #ff6b35; box-shadow: 0 10px 50px rgba(255, 107, 53, 0.3);">
-    <h2 style="color: #ff6b35; margin-bottom: 25px; text-align: center; font-size: 1.8rem;">⚠️ Important Notice - Please Read</h2>
-    <div style="margin-bottom: 25px; line-height: 1.8; color: #e0e0e0; font-size: 1.05rem;">
-      <p style="margin-bottom: 15px;"><strong>Welcome to the Fan Fiction Generator.</strong> Before using this tool, please acknowledge the following:</p>
-      <ul style="margin-left: 20px; margin-bottom: 20px;">
-        <li style="margin-bottom: 10px;">📝 <strong>Responsible Use:</strong> This tool is for creative writing purposes only. Use it responsibly and ethically.</li>
-        <li style="margin-bottom: 10px;">🔞 <strong>Age Representation:</strong> All characters in generated stories are intentionally represented as adults (18+ years old), regardless of their age in source material.</li>
-        <li style="margin-bottom: 10px;">⚖️ <strong>Legal Compliance:</strong> You are responsible for ensuring your use complies with local laws and regulations.</li>
-        <li style="margin-bottom: 10px;">🎨 <strong>Fan Content:</strong> Respect intellectual property rights and use generated content appropriately.</li>
-        <li style="margin-bottom: 10px;">🛡️ <strong>Content Warnings:</strong> Higher spice levels and NSFW settings produce mature content. Additional warnings will appear when selecting explicit content options.</li>
-        <li style="margin-bottom: 10px;">💾 <strong>No Storage:</strong> We do not store your stories or API keys. All processing happens in your browser.</li>
-      </ul>
-      <p style="margin-bottom: 15px; padding: 15px; background: rgba(255, 107, 53, 0.1); border-left: 4px solid #ff6b35; border-radius: 5px;">
-        <strong>By clicking "I Understand and Agree" below, you acknowledge that you have read and agree to use this tool responsibly.</strong>
-      </p>
-    </div>
-    <div style="text-align: center;">
-      <button onclick="acknowledgeGeneralWarning()" style="background: linear-gradient(135deg, #ff6b35, #ff8c61); color: white; border: none; padding: 15px 40px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4); transition: all 0.3s ease;">
-        I Understand and Agree
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Adult Content Warning Overlay -->
-<div id="adultWarningOverlay">
-  <div class="adult-warning-content">
-    <h3 style="color: #ff6b35; margin-bottom: 20px;">⚠️ Adult Content Confirmation</h3>
-    <div style="margin-bottom: 20px; line-height: 1.6;">
-      You have selected NSFW content. Please confirm:<br><br>
-      <strong>• You are 18 years of age or older</strong><br>
-      <strong>• All characters will be depicted as adults (18+)</strong><br>
-      <strong>• You understand this will contain explicit content</strong><br>
-      <strong>• You are using this responsibly</strong>
-    </div>
-    <div style="display: flex; gap: 15px; justify-content: center;">
-      <button onclick="acceptAdultContent()" style="background: #ff6b35; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">I Confirm (18+)</button>
-      <button onclick="declineAdultContent()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <div id="loadingDiv" class="loading" style="display: none;">
 Creating your fan fiction story...
 </div>
@@ -429,7 +428,7 @@ Creating your fan fiction story...
 <div class="result-content" id="resultContent"></div>
 
 <div style="margin-top: 30px; gap: 15px; display: flex; justify-content: center; flex-wrap: wrap;">
-<button class="btn-primary btn-download" onclick="copyResult()">Copy Output</button>
+<button class="btn-primary btn-download" onclick="copyResult(event)">Copy Output</button>
 <button class="btn-primary btn-download" onclick="downloadResult('markdown')">MD</button>
 <button class="btn-primary btn-download" onclick="downloadResult('html')">HTML</button>
 

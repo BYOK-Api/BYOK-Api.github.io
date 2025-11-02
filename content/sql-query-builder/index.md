@@ -116,29 +116,21 @@ Products table: id, name, price, category_id" rows="6"></textarea>
 </div>
 
 <div class="form-group">
-<label>Query Options</label>
-<div class="options-two-column">
-<div class="options-column">
-<label class="checkbox-block"><input id="includeExplanation" type="checkbox" checked/> Include
-                                query explanation</label>
-<label class="checkbox-block"><input id="optimizePerformance" type="checkbox" checked/> Optimize
-                                for performance</label>
-<label class="checkbox-block"><input id="includeIndexSuggestions" type="checkbox"/> Suggest
-                                indexes</label>
-<label class="checkbox-block"><input id="generateTestData" type="checkbox"/> Generate test
-                                data</label>
-</div>
-<div class="options-column">
-<label class="checkbox-block"><input id="includeErrorHandling" type="checkbox"/> Include
-                                error handling</label>
-<label class="checkbox-block"><input id="includeTransactions" type="checkbox"/> Use
-                                transactions</label>
-<label class="checkbox-block"><input id="includeLogging" type="checkbox"/> Add logging/audit
-                                trail</label>
-<label class="checkbox-block"><input id="includeDocumentation" type="checkbox"/> Generate
-                                documentation</label>
-</div>
-</div>
+  <label>Query Options</label>
+  <div class="options-two-column">
+    <div class="options-column">
+      <label class="checkbox-inline"><input id="includeExplanation" type="checkbox" checked/> Include query explanation</label>
+      <label class="checkbox-inline"><input id="optimizePerformance" type="checkbox" checked/> Optimize for performance</label>
+      <label class="checkbox-inline"><input id="includeIndexSuggestions" type="checkbox"/> Suggest indexes</label>
+      <label class="checkbox-inline"><input id="generateTestData" type="checkbox"/> Generate test data</label>
+    </div>
+    <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
+      <label class="checkbox-inline"><input id="includeErrorHandling" type="checkbox"/> Include error handling</label>
+      <label class="checkbox-inline"><input id="includeTransactions" type="checkbox"/> Use transactions</label>
+      <label class="checkbox-inline"><input id="includeLogging" type="checkbox"/> Add logging/audit trail</label>
+      <label class="checkbox-inline"><input id="includeDocumentation" type="checkbox"/> Generate documentation</label>
+    </div>
+  </div>
 </div>
 
 <div class="form-group">

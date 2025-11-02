@@ -86,21 +86,14 @@ social_media:
 </select>
 </div>
 <div class="form-group">
-<label>Options</label>
-<div class="checkbox-group">
-<div class="checkbox-row">
-<label class="checkbox-inline"><input id="generateHeadline" type="checkbox"/> Generate
-                                headline suggestion</label>
-<label class="checkbox-inline"><input id="generateHashtags" type="checkbox"/> Generate
-                                hashtag suggestions</label>
-</div>
-</div>
+  <label>Options</label>
+  <label class="checkbox-inline"><input id="generateHeadline" type="checkbox"/> Generate headline suggestion</label>
+  <label class="checkbox-inline"><input id="generateHashtags" type="checkbox"/> Generate hashtag suggestions</label>
 </div>
 <button type="button" class="btn-primary" onclick="generateSummary(event)">Generate Summary</button>
 </form>
-<div class="loading" id="loadingDiv" style="display: none;">
-                Generating summary...
-            </div>
+<div class="loading" id="loadingDiv" style="display: none;">Generating summary...
+</div>
 <div id="errorDiv" style="display: none;"></div>
 <div id="resultDiv" style="display: none;">
 <h3 style="color: #ff6b35; margin-bottom: 20px;">Content Summary</h3>

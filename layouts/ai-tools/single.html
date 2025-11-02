@@ -137,8 +137,8 @@
             let isResizing = false;
             let startX = 0;
             let startWidth = 0;
-            const minWidth = 300;
-            const maxWidth = 800;
+            const minWidth = 320; // Increased from 300 to account for padding
+            const maxWidth = 900; // Increased to allow more flexibility
 
             divider.addEventListener('mousedown', function (e) {
                 isResizing = true;
@@ -156,8 +156,14 @@
                 const deltaX = e.clientX - startX;
                 let newWidth = startWidth + deltaX;
 
-                // Constrain width
-                newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+                // Get the wrapper's total width to calculate proper constraints
+                const wrapperWidth = wrapper.offsetWidth;
+                const resultsMinWidth = 400; // Minimum width for results section
+                const dividerWidth = 4;
+                const actualMaxWidth = Math.min(maxWidth, wrapperWidth - resultsMinWidth - dividerWidth);
+
+                // Constrain width based on both min/max and available space
+                newWidth = Math.max(minWidth, Math.min(actualMaxWidth, newWidth));
 
                 // Update grid template
                 wrapper.style.gridTemplateColumns = `${newWidth}px 4px 1fr`;

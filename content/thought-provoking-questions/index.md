@@ -78,12 +78,8 @@ social_media:
 <textarea id="topicsCsv" rows="2" placeholder="Leadership, Ownership, Problem Solving, Communication, Product Thinking, Ethics, ..."></textarea>
 </div>
 <div class="form-group">
-<div class="checkbox-group">
-<div class="checkbox-row">
-<label class="checkbox-inline"><input type="checkbox" id="includeFollowups" checked> Include follow-up probes</label>
-<label class="checkbox-inline"><input type="checkbox" id="includeRubric" checked> Include scoring rubric (1–5) and red flags</label>
-</div>
-</div>
+  <label class="checkbox-inline"><input type="checkbox" id="includeFollowups" checked> Include follow-up probes</label>
+  <label class="checkbox-inline"><input type="checkbox" id="includeRubric" checked> Include scoring rubric (1–5) and red flags</label>
 </div>
 <button type="button" class="btn-primary" onclick="generateTPQ()">Generate Questions</button>
 </form>

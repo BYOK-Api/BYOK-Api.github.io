@@ -100,26 +100,24 @@ Generate rich backstories and compelling lore for your D&D characters. Create le
 </div>
 
 <div class="form-group">
-<label for="storyLength">Story Length</label>
-<select id="storyLength">
-<option value="short">Short Tale (~150 words)</option>
-<option value="heroic">Heroic Chronicle (~500 words)</option>
-<option value="epic">Epic Saga (~1000+ words)</option>
-</select>
+  <label for="storyLength">Story Length</label>
+  <select id="storyLength">
+  <option value="short">Short Tale (~150 words)</option>
+  <option value="heroic">Heroic Chronicle (~500 words)</option>
+  <option value="epic">Epic Saga (~1000+ words)</option>
+  </select>
 </div>
 
 <div class="form-group">
-<label for="backgroundTraits">Background Traits & Goals (Optional)</label>
-<textarea id="backgroundTraits" rows="4" placeholder="Character goals, existing backstory elements, personality traits, or homebrew details..."></textarea>
+  <label for="backgroundTraits">Background Traits & Goals (Optional)</label>
+  <textarea id="backgroundTraits" rows="4" placeholder="Character goals, existing backstory elements, personality traits, or homebrew details..."></textarea>
 </div>
 
 <div class="form-group">
-<div class="checkbox-group">
-<label class="checkbox-inline">
-<input type="checkbox" id="includeBonus" checked> Include Bonus Flavor Elements
-</label>
-<small style="display: block; opacity: 0.8; margin-top: 5px;">Battle cries, favorite drinks, recurring dreams, mysterious prophecies, etc.</small>
-</div>
+  <label class="checkbox-inline">
+  <input type="checkbox" id="includeBonus" checked> Include Bonus Flavor Elements
+  </label>
+  <small style="display: block; opacity: 0.8; margin-top: 5px;">Battle cries, favorite drinks, recurring dreams, mysterious prophecies, etc.</small>
 </div>
 
 <button type="button" class="btn-primary" onclick="generateDnDCharacter()">⚔️ Generate Character Lore</button>

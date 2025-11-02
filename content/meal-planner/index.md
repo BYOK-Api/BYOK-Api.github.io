@@ -35,7 +35,6 @@ Plan your entire week with personalized meal suggestions, complete grocery lists
 </p>
 
 <form id="mealPlannerForm">
-  <div class="form-row">
     <div class="form-group">
       <label for="numberOfDays" class="tooltip">
         Planning Duration
@@ -61,22 +60,16 @@ Plan your entire week with personalized meal suggestions, complete grocery lists
         <option value="6+">6+ People</option>
       </select>
     </div>
-  </div>
   <div class="form-group">
     <label for="mealsPerDay" class="tooltip">
       Meals to Plan
       <span class="tooltiptext">Select which meals you want planned for each day</span>
     </label>
-    <div class="checkbox-group">
-      <div class="checkbox-row">
         <label class="checkbox-inline"><input type="checkbox" id="includeBreakfast" checked> 🌅 Breakfast</label>
         <label class="checkbox-inline"><input type="checkbox" id="includeLunch" checked> 🌞 Lunch</label>
         <label class="checkbox-inline"><input type="checkbox" id="includeDinner" checked> 🌙 Dinner</label>
         <label class="checkbox-inline"><input type="checkbox" id="includeSnacks"> 🍿 Snacks</label>
-      </div>
-    </div>
   </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="dietaryPreference" class="tooltip">
         Dietary Preference
@@ -105,8 +98,6 @@ Plan your entire week with personalized meal suggestions, complete grocery lists
         <option value="premium">💎 Premium</option>
       </select>
     </div>
-  </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="cookingTime" class="tooltip">
         Cooking Time Preference
@@ -130,7 +121,6 @@ Plan your entire week with personalized meal suggestions, complete grocery lists
         <option value="international">✈️ International Focus</option>
       </select>
     </div>
-  </div>
   <div class="form-group">
     <label for="existingIngredients" class="tooltip">
       Ingredients You Already Have (Optional)

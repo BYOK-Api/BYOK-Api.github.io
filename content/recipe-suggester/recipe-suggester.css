@@ -94,14 +94,6 @@ textarea::placeholder {
     font-style: italic;
 }
 
-/* Form row for side-by-side fields */
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
 /* Select dropdown styling */
 select {
     width: 100%;
@@ -222,10 +214,6 @@ select option {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
 
     .tooltip .tooltiptext {
         width: 200px;

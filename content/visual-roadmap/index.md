@@ -78,9 +78,6 @@ social_media:
 <option value="detailed">📝 Detailed Steps (Specific actions and tasks)</option>
 <option value="granular">🔍 Granular Instructions ("Go to", "Click", step-by-step)</option>
 </select>
-<small style="color: #cccccc; font-size: 0.9em; margin-top: 4px; display: block;">
-Choose how detailed you want the roadmap steps to be - from strategic overview to tutorial-level instructions.
-</small>
 </div>
 
 <div class="form-group">

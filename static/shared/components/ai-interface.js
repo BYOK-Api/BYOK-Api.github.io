@@ -353,12 +353,6 @@ class AIInterface {
             // Create wrapper
             const wrapperFG = document.createElement('div');
             wrapperFG.className = 'form-group';
-            const wrapper = document.createElement('div');
-            wrapper.className = 'checkbox-group';
-            const row = document.createElement('div');
-            row.className = 'checkbox-row';
-            wrapper.appendChild(row);
-            wrapperFG.appendChild(wrapper);
 
             // Insert before the first group's position
             const first = group[0];
@@ -370,7 +364,6 @@ class AIInterface {
                 const smalls = Array.from(fg.querySelectorAll('small'));
                 if (label) {
                     label.classList.add('checkbox-inline');
-                    row.appendChild(label);
                 }
                 // Append descriptions after the row
                 smalls.forEach(sm => wrapperFG.appendChild(sm));

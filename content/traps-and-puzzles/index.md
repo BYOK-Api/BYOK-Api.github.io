@@ -93,24 +93,15 @@ social_media:
 
 <div class="form-group">
 <label for="includeOptions">Include Additional Elements</label>
-<div class="checkbox-group">
-<label class="checkbox-inline">
-<input type="checkbox" id="includeVariations" checked>
-Difficulty variations
-</label>
-<label class="checkbox-inline">
-<input type="checkbox" id="includeFailsafes" checked>
-Failsafes and bypasses
-</label>
-<label class="checkbox-inline">
-<input type="checkbox" id="includeClues">
-Hidden clues and hints
-</label>
-<label class="checkbox-inline">
-<input type="checkbox" id="includeRewards">
-Rewards for success
-</label>
-</div>
+  <div class="options-two-column">
+    <div class="options-column">
+      <label class="checkbox-inline"><input type="checkbox" id="includeVariations" checked>Difficulty variations</label>
+      <label class="checkbox-inline"><input type="checkbox" id="includeFailsafes" checked>Failsafes and bypasses</label>
+    </div>
+    <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
+      <label class="checkbox-inline"><input type="checkbox" id="includeClues">Hidden clues and hints</label>
+      <label class="checkbox-inline"><input type="checkbox" id="includeRewards">Rewards for success</label>
+    </div>
 </div>
 
 <div class="form-group">

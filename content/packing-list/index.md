@@ -29,13 +29,11 @@ social_media:
 <link rel="stylesheet" href="/shared/styles/result-display.css">
 <link rel="stylesheet" href="packing-list.css">
 
-<h1 style="text-align: center; margin-bottom: 30px; color: #ff6b35;">🧳 AI Packing List Generator</h1>
-<p style="text-align: center; margin-bottom: 40px; opacity: 0.9;">
+# 🧳 AI Packing List Generator
+
 Create comprehensive, customized packing lists for any trip. From weekend getaways to international adventures, pack smart and never forget essentials!
-</p>
 
 <form id="packingForm">
-  <div class="form-row">
     <div class="form-group">
       <label for="tripType" class="tooltip">
         Trip Type *
@@ -61,8 +59,6 @@ Create comprehensive, customized packing lists for any trip. From weekend getawa
       </label>
       <input type="text" id="destination" placeholder="e.g., Paris, France or Hawaiian Islands" required>
     </div>
-  </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="tripDuration" class="tooltip">
         Trip Duration
@@ -91,24 +87,25 @@ Create comprehensive, customized packing lists for any trip. From weekend getawa
         <option value="mixed">🌦️ Mixed / Variable</option>
       </select>
     </div>
-  </div>
   <div class="form-group">
     <label for="plannedActivities" class="tooltip">
       Planned Activities
       <span class="tooltiptext">Select all activities you plan to do on your trip</span>
     </label>
-    <div class="checkbox-group">
-      <div class="checkbox-row">
-        <label class="checkbox-inline"><input type="checkbox" id="actBeach"> 🏖️ Beach / Swimming</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actHiking"> 🥾 Hiking / Trekking</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actFormal"> 👔 Formal Events</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actSports"> 🏃 Sports / Fitness</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actDining"> 🍽️ Fine Dining</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actPhotography"> 📸 Photography</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actWater"> 🌊 Water Sports</label>
-        <label class="checkbox-inline"><input type="checkbox" id="actNightlife"> 🌃 Nightlife / Clubs</label>
-      </div>
+    <div class="options-two-column">
+      <div class="options-column">
+      <label class="checkbox-inline"><input type="checkbox" id="actBeach"> 🏖️ Beach / Swimming</label>
+      <label class="checkbox-inline"><input type="checkbox" id="actHiking"> 🥾 Hiking / Trekking</label>
+      <label class="checkbox-inline"><input type="checkbox" id="actFormal"> 👔 Formal Events</label>
+      <label class="checkbox-inline"><input type="checkbox" id="actSports"> 🏃 Sports / Fitness</label>
     </div>
+      <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
+      <label class="checkbox-inline"><input type="checkbox" id="actDining"> 🍽️ Fine Dining</label>
+      <label class="checkbox-inline"><input type="checkbox" id="actPhotography"> 📸 Photography</label>
+      <label class="checkbox-inline"><input type="checkbox" id="actWater"> 🌊 Water Sports</label>
+      <label class="checkbox-inline"><input type="checkbox" id="actNightlife"> 🌃 Nightlife / Clubs</label>
+    </div>
+  </div>
   </div>
   <div class="form-group">
     <label for="travelStyle" class="tooltip">
@@ -126,16 +123,17 @@ Create comprehensive, customized packing lists for any trip. From weekend getawa
       Special Needs & Considerations
       <span class="tooltiptext">Select any special requirements or situations</span>
     </label>
-    <div class="checkbox-group">
-      <div class="checkbox-row">
+    <div class="options-two-column">
+      <div class="options-column">
         <label class="checkbox-inline"><input type="checkbox" id="needBaby"> 👶 Traveling with Baby</label>
         <label class="checkbox-inline"><input type="checkbox" id="needKids"> 🧒 Traveling with Kids</label>
         <label class="checkbox-inline"><input type="checkbox" id="needMedical"> 💊 Medical Needs</label>
+      </div>
+      <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
         <label class="checkbox-inline"><input type="checkbox" id="needPets"> 🐕 Traveling with Pets</label>
         <label class="checkbox-inline"><input type="checkbox" id="needWork"> 💻 Remote Work</label>
         <label class="checkbox-inline"><input type="checkbox" id="needElectronics"> 🔌 Tech Heavy</label>
       </div>
-    </div>
   </div>
   <div class="form-group">
     <label for="accommodationType" class="tooltip">

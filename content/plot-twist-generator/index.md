@@ -84,44 +84,46 @@ social_media:
 <option value="parallel-reality">Parallel World/Reality</option>
 </select>
 </div>
-<div class="form-group">
-<label for="twistTiming">When Should the Twist Occur?</label>
-<select id="twistTiming">
-<option value="midpoint">Story Midpoint - Major revelation</option>
-<option value="climax">Near Climax - Final major twist</option>
-<option value="resolution">Resolution - Epilogue surprise</option>
-<option value="early">Early Story - Sets new direction</option>
-<option value="multiple">Multiple Points - Series of reveals</option>
-</select>
-</div>
-<div class="form-group">
-<label for="impactLevel">Twist Impact Level</label>
-<select id="impactLevel">
-<option value="subtle">Subtle - Recontextualizes details</option>
-<option value="moderate">Moderate - Changes story direction</option>
-<option value="major">Major - Transforms entire narrative</option>
-<option value="game-changing">Game-Changing - Everything is different</option>
-</select>
-</div>
-<div class="form-group">
-<label for="existingClues">Existing Clues/Foreshadowing (Optional)</label>
-<textarea id="existingClues" placeholder="List any clues, hints, or foreshadowing you've already planted that the twist should incorporate or build upon..." rows="3"></textarea>
-</div>
-<div class="form-group">
-<label for="avoidElements">Elements to Avoid (Optional)</label>
-<textarea id="avoidElements" placeholder="List any plot elements, clichés, or types of twists you want to avoid..." rows="2"></textarea>
-</div>
-<div class="form-group">
-<label for="includeOptions">Include in Output</label>
-<div class="checkbox-group">
-<div class="checkbox-row">
-<label class="checkbox-inline"><input checked="" id="includeForeshadowing" type="checkbox"/> Foreshadowing suggestions</label>
-<label class="checkbox-inline"><input checked="" id="includeClues" type="checkbox"/> Clues to plant earlier</label>
-<label class="checkbox-inline"><input id="includeReactions" type="checkbox"/> Character reactions</label>
-<label class="checkbox-inline"><input id="includeConsequences" type="checkbox"/> Story consequences</label>
-</div>
-</div>
-</div>
+  <div class="form-group">
+    <label for="twistTiming">When Should the Twist Occur?</label>
+    <select id="twistTiming">
+    <option value="midpoint">Story Midpoint - Major revelation</option>
+    <option value="climax">Near Climax - Final major twist</option>
+    <option value="resolution">Resolution - Epilogue surprise</option>
+    <option value="early">Early Story - Sets new direction</option>
+    <option value="multiple">Multiple Points - Series of reveals</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="impactLevel">Twist Impact Level</label>
+    <select id="impactLevel">
+    <option value="subtle">Subtle - Recontextualizes details</option>
+    <option value="moderate">Moderate - Changes story direction</option>
+    <option value="major">Major - Transforms entire narrative</option>
+    <option value="game-changing">Game-Changing - Everything is different</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="existingClues">Existing Clues/Foreshadowing (Optional)</label>
+    <textarea id="existingClues" placeholder="List any clues, hints, or foreshadowing you've already planted that the twist should incorporate or build upon..." rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="avoidElements">Elements to Avoid (Optional)</label>
+    <textarea id="avoidElements" placeholder="List any plot elements, clichés, or types of twists you want to avoid..." rows="2"></textarea>
+  </div>
+  <div class="form-group">
+  <label for="includeOptions">Include in Output</label>
+  <div class="options-two-column">
+    <div class="options-column">
+      <label class="checkbox-inline"><input checked="" id="includeForeshadowing" type="checkbox"/> Foreshadowing suggestions</label>
+      <label class="checkbox-inline"><input checked="" id="includeClues" type="checkbox"/> Clues to plant earlier</label>
+    </div>
+    <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
+      <label class="checkbox-inline"><input id="includeReactions" type="checkbox"/> Character reactions</label>
+      <label class="checkbox-inline"><input id="includeConsequences" type="checkbox"/> Story consequences</label>
+    </div>
+  </div>
+  </div>
 <button type="submit" class="btn-primary">Generate Plot Twist</button>
 </form>
 <div class="ai-loading" id="loadingDiv" style="display: none;">

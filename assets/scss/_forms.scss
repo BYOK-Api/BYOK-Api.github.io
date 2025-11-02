@@ -122,76 +122,131 @@ input[type="checkbox"] {
     border: none;
 }
 
-.checkbox-group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-    margin-top: 6px;
-
-    .checkbox-row {
-        display: grid;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-}
 
 .checkbox-inline {
-    background: rgba(255, 107, 53, 0.1) !important;
-    border: 2px solid rgba(255, 107, 53, 0.3) !important;
-    border-radius: 8px !important;
-    padding: 10px 16px !important;
-    margin: 4px !important;
+    padding-left: 5px;
+    border-radius: 15px !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     user-select: none !important;
     font-weight: 500 !important;
     position: relative !important;
-    display: inline-flex !important;
+    display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 12px !important;
     color: #e0e0e0 !important;
     font-size: 0.95rem !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal; // Allow wrapping instead of ellipsis
+    overflow: visible;
+    text-overflow: clip;
     max-width: 100%;
+    box-sizing: border-box;
+    width: 100%; // Take full width in grid
 
     &:hover {
-        background: rgba(255, 107, 53, 0.2) !important;
-        border-color: rgba(255, 107, 53, 0.6) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 107, 53, 0.4) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 3px 8px rgba(255, 107, 53, 0.2) !important;
     }
 
     &:has(input:focus) {
         outline: 2px solid #ff6b35 !important;
         outline-offset: 2px !important;
+        text-align: right !important;
     }
 
-    &:has(input[type="checkbox"]:checked)::before {
-        content: "✓" !important;
-        position: absolute !important;
-        right: 8px !important;
-        color: white !important;
-        font-weight: bold !important;
-        font-size: 14px !important;
+    &:has(input[type="checkbox"]:checked) {
+        background: rgba(255, 107, 53, 0.15) !important;
+        border-color: #ff6b35 !important;
     }
 
     input[type="checkbox"] {
-        width: 18px !important;
-        height: 18px !important;
-        border-radius: 4px !important;
-        border: 2px solid rgba(255, 107, 53, 0.5) !important;
-        background: #1a1a1a !important;
+        /* Override global hidden state so the custom toggle renders */
+        opacity: 1 !important;
+        position: relative !important;
+        display: inline-block !important;
+        width: 52px !important;
+        height: 28px !important;
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+        border: 2px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 14px !important;
         cursor: pointer !important;
         margin: 0 !important;
-        accent-color: #ff6b35;
+        margin-left: auto !important;
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        position: relative !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+
+        &::before {
+            content: '' !important;
+            position: absolute !important;
+            width: 22px !important;
+            height: 22px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%) !important;
+            top: 1px !important;
+            left: 2px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        &::after {
+            content: 'OFF' !important;
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            font-size: 8px !important;
+            font-weight: 700 !important;
+            color: rgba(255, 255, 255, 0.3) !important;
+            letter-spacing: 0.5px !important;
+            transition: all 0.3s ease !important;
+            pointer-events: none !important;
+        }
 
         &:checked {
-            background: #ff6b35 !important;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c69 100%) !important;
             border-color: #ff6b35 !important;
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.5), inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+
+            &::before {
+                left: 26px !important;
+                background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%) !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            }
+
+            &::after {
+                content: 'ON' !important;
+                color: rgba(255, 255, 255, 0.95) !important;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+            }
         }
+
+        &:hover {
+            border-color: #ff6b35 !important;
+            transform: scale(1.02) !important;
+        }
+
+        &:active::before {
+            width: 26px !important;
+        }
+
+        &:checked:active::before {
+            left: 22px !important;
+        }
+    }
+    
+    /* Make radios visible inside inline labels as well */
+    input[type="radio"] {
+        opacity: 1 !important;
+        position: relative !important;
+        display: inline-block !important;
     }
 }
 

@@ -97,7 +97,6 @@ Create compelling NPCs for any system or genre with detailed personalities, back
 </div>
 
 <div class="form-group">
-<div class="checkbox-group">
 <label class="checkbox-inline">
 <input type="checkbox" id="includeSecrets" checked> Include secrets or hidden motivations
 </label>
@@ -107,7 +106,6 @@ Create compelling NPCs for any system or genre with detailed personalities, back
 <label class="checkbox-inline">
 <input type="checkbox" id="includeHooks" checked> Include plot hooks and story connections
 </label>
-</div>
 </div>
 
 <button type="button" class="btn-primary" onclick="generateNPC()">🧙 Forge NPC</button>

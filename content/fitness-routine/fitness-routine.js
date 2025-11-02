@@ -37,23 +37,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Get equipment selections
         const equipment = [];
-        if (document.getElementById('equipDumbbells').checked) equipment.push('Dumbbells');
-        if (document.getElementById('equipBarbell').checked) equipment.push('Barbell');
-        if (document.getElementById('equipBands').checked) equipment.push('Resistance Bands');
-        if (document.getElementById('equipKettlebells').checked) equipment.push('Kettlebells');
-        if (document.getElementById('equipMachines').checked) equipment.push('Weight Machines');
-        if (document.getElementById('equipCardio').checked) equipment.push('Cardio Equipment');
-        if (document.getElementById('equipBodyweight').checked) equipment.push('Bodyweight');
-        if (document.getElementById('equipPullupBar').checked) equipment.push('Pull-up Bar');
+        const equipIds = [
+            { id: 'equipDumbbells', label: 'Dumbbells' },
+            { id: 'equipBarbell', label: 'Barbell' },
+            { id: 'equipBands', label: 'Resistance Bands' },
+            { id: 'equipKettlebells', label: 'Kettlebells' },
+            { id: 'equipMachines', label: 'Weight Machines' },
+            { id: 'equipCardio', label: 'Cardio Equipment' },
+            { id: 'equipBodyweight', label: 'Bodyweight' },
+            { id: 'equipPullupBar', label: 'Pull-up Bar' }
+        ];
+
+        equipIds.forEach(item => {
+            const element = document.getElementById(item.id);
+            if (element && element.checked) {
+                equipment.push(item.label);
+            }
+        });
 
         // Get focus areas
         const focusAreas = [];
-        if (document.getElementById('focusChest').checked) focusAreas.push('Chest');
-        if (document.getElementById('focusBack').checked) focusAreas.push('Back');
-        if (document.getElementById('focusLegs').checked) focusAreas.push('Legs');
-        if (document.getElementById('focusArms').checked) focusAreas.push('Arms');
-        if (document.getElementById('focusShoulders').checked) focusAreas.push('Shoulders');
-        if (document.getElementById('focusCore').checked) focusAreas.push('Core/Abs');
+        const focusIds = [
+            { id: 'focusChest', label: 'Chest' },
+            { id: 'focusBack', label: 'Back' },
+            { id: 'focusLegs', label: 'Legs' },
+            { id: 'focusArms', label: 'Arms' },
+            { id: 'focusShoulders', label: 'Shoulders' },
+            { id: 'focusCore', label: 'Core/Abs' }
+        ];
+
+        focusIds.forEach(item => {
+            const element = document.getElementById(item.id);
+            if (element && element.checked) {
+                focusAreas.push(item.label);
+            }
+        });
 
         console.log('Form values collected');
 

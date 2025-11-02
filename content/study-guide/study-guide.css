@@ -1,17 +1,5 @@
 /* study-guide specific styles */
 
-/* Checkbox group styling */
-.checkbox-group {
-    margin-top: 10px;
-}
-
-.checkbox-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
-}
-
 .checkbox-inline {
     display: flex;
     align-items: center;
@@ -30,15 +18,6 @@
     cursor: pointer;
     accent-color: #ff6b35;
     flex-shrink: 0;
-}
-
-/* Responsive checkbox layout */
-@media (max-width: 768px) {
-    .checkbox-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
 }
 
 /* Custom styles can be added here if needed */

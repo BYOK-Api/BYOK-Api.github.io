@@ -43,7 +43,6 @@ Transform your available ingredients into creative, delicious meals. Get persona
     <textarea id="ingredients" rows="8" placeholder="chicken breast&#10;rice&#10;broccoli&#10;garlic&#10;soy sauce&#10;olive oil&#10;onion&#10;bell pepper" required></textarea>
     <div class="helper-text">💡 Tip: Be specific (e.g., "boneless chicken breast" instead of just "chicken")</div>
   </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="mealType" class="tooltip">
         Meal Type
@@ -83,8 +82,6 @@ Transform your available ingredients into creative, delicious meals. Get persona
         <option value="vietnamese">🇻🇳 Vietnamese</option>
       </select>
     </div>
-  </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="dietaryPreference" class="tooltip">
         Dietary Preference
@@ -117,8 +114,6 @@ Transform your available ingredients into creative, delicious meals. Get persona
         <option value="leisurely">🕰️ Leisurely (Over 1 hour)</option>
       </select>
     </div>
-  </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="skillLevel" class="tooltip">
         Cooking Skill Level
@@ -144,7 +139,6 @@ Transform your available ingredients into creative, delicious meals. Get persona
         <option value="10">10 Recipes</option>
       </select>
     </div>
-  </div>
   <div class="form-group">
     <label for="additionalNotes" class="tooltip">
       Additional Notes (Optional)

@@ -82,21 +82,21 @@ social_media:
 </div>
 <div class="form-group">
 <label for="adjustmentOptions">Adjustment Options</label>
-<div class="checkbox-group">
-<div class="checkbox-row">
+  <div class="options-two-column">
+    <div class="options-column">
+
 <label class="checkbox-inline"><input checked="" id="simplifyVocabulary" type="checkbox"/> Simplify vocabulary</label>
 <label class="checkbox-inline"><input checked="" id="shortenSentences" type="checkbox"/> Shorten sentences</label>
-<label class="checkbox-inline"><input id="addDefinitions" type="checkbox"/> Add definitions for complex terms</label>
-<label class="checkbox-inline"><input id="useExamples" type="checkbox"/> Include examples and analogies</label>
+<label class="checkbox-inline"><input id="addDefinitions" type="checkbox"/> Add Complex definitions</label>
+<label class="checkbox-inline"><input id="useExamples" type="checkbox"/>Examples and analogies</label>
 </div>
-<div class="checkbox-row">
+  <div class="options-column" style="margin-right:20px; border-left:1px solid #444; padding-left:20px;">
+
 <label class="checkbox-inline"><input id="improveStructure" type="checkbox"/> Improve text structure</label>
 <label class="checkbox-inline"><input id="addTransitions" type="checkbox"/> Add transition words</label>
-<label class="checkbox-inline"><input checked="" id="removeJargon" type="checkbox"/> Remove or explain jargon</label>
-<label class="checkbox-inline"><input id="activeVoice" type="checkbox"/> Convert to active voice</label>
-</div>
-</div>
-</div>
+<label class="checkbox-inline"><input checked="" id="removeJargon" type="checkbox"/>Explain jargon</label>
+<label class="checkbox-inline"><input id="activeVoice" type="checkbox"/> Use active voice</label>
+</div></div>
 <div class="form-group">
 <label for="outputFormat">Output Format</label>
 <select id="outputFormat">

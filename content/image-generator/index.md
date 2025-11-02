@@ -42,8 +42,6 @@ Create stunning, unique images using advanced AI models. Transform your ideas in
     </label>
     <textarea id="prompt" rows="4" placeholder="e.g., A serene mountain landscape at sunset with snow-capped peaks, golden hour lighting, vibrant colors, ultra detailed, photorealistic..." required></textarea>
   </div>
-
-  <div class="form-row">
     <div class="form-group">
       <label for="imageStyle" class="tooltip">
         Art Style
@@ -80,9 +78,6 @@ Create stunning, unique images using advanced AI models. Transform your ideas in
         <option value="ultra">Ultra Quality (HD)</option>
       </select>
     </div>
-  </div>
-
-  <div class="form-row">
     <div class="form-group">
       <label for="aspectRatio" class="tooltip">
         Aspect Ratio
@@ -113,7 +108,6 @@ Create stunning, unique images using advanced AI models. Transform your ideas in
         <option value="muted">🎨 Muted - Desaturated, subtle colors</option>
       </select>
     </div>
-  </div>
 
   <div class="form-group">
     <label for="lighting" class="tooltip">
@@ -144,7 +138,6 @@ Create stunning, unique images using advanced AI models. Transform your ideas in
 
   <div class="form-group">
     <label>Image Enhancement Options</label>
-    <div class="checkbox-group">
       <label class="checkbox-inline tooltip">
         <input type="checkbox" id="enhanceDetails" checked> Enhanced Details
         <span class="tooltiptext">Add extra detail and sharpness to the generated image for a more refined result.</span>
@@ -161,7 +154,6 @@ Create stunning, unique images using advanced AI models. Transform your ideas in
         <input type="checkbox" id="professionalPhoto"> Professional Photography
         <span class="tooltiptext">Emulate professional camera settings with proper depth of field and bokeh effects.</span>
       </label>
-    </div>
   </div>
 
   <div class="form-group">

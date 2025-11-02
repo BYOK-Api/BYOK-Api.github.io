@@ -673,12 +673,16 @@ ol ol {
   list-style-type: lower-alpha;
 }
 
+.tooltip {
+  padding-top: 10px;
+}
+
 .container {
   flex: 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
+  text-align: left;
   max-width: 1500px;
   width: 90%;
   margin: 0 auto;

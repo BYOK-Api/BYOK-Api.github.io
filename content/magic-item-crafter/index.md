@@ -99,7 +99,6 @@ Generate balanced treasure parcels and bespoke magic items with lore, attunement
 </div>
 
 <div class="form-group">
-<div class="checkbox-group">
 <label class="checkbox-inline">
 <input type="checkbox" id="drawbacks"> Allow drawbacks/curses when appropriate
 </label>
@@ -112,7 +111,6 @@ Generate balanced treasure parcels and bespoke magic items with lore, attunement
 <label class="checkbox-inline">
 <input type="checkbox" id="includeHooks" checked> Include a plot hook per item
 </label>
-</div>
 </div>
 
 <button type="button" class="btn-primary" onclick="generateMagicItems()">✨ Craft Magic Items</button>

@@ -1,42 +1,5 @@
 /* Music Lyrics Generator specific styles */
 
-/* Side-by-side form layouts */
-.form-row {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.form-row .form-group {
-    flex: 1;
-    margin-bottom: 0;
-}
-
-/* Responsive layout for mobile */
-@media (max-width: 768px) {
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-
-    .form-row .form-group {
-        margin-bottom: 20px;
-    }
-}
-
-/* Checkbox styling */
-.checkbox-group {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 15px 20px;
-}
-
-@media (max-width: 768px) {
-    .checkbox-group {
-        grid-template-columns: 1fr !important;
-    }
-}
-
 .checkbox-inline {
     display: flex !important;
     align-items: center;

@@ -35,7 +35,6 @@ Create personalized workout routines designed for your specific goals, fitness l
 </p>
 
 <form id="fitnessForm">
-  <div class="form-row">
     <div class="form-group">
       <label for="fitnessGoal" class="tooltip">
         Primary Fitness Goal *
@@ -66,8 +65,6 @@ Create personalized workout routines designed for your specific goals, fitness l
         <option value="athlete">🏆 Athlete (Competition level)</option>
       </select>
     </div>
-  </div>
-  <div class="form-row">
     <div class="form-group">
       <label for="workoutDays" class="tooltip">
         Workouts Per Week
@@ -94,7 +91,6 @@ Create personalized workout routines designed for your specific goals, fitness l
         <option value="60+">🕰️ 60+ minutes</option>
       </select>
     </div>
-  </div>
   <div class="form-group">
     <label for="workoutLocation" class="tooltip">
       Workout Location
@@ -113,17 +109,17 @@ Create personalized workout routines designed for your specific goals, fitness l
       Available Equipment
       <span class="tooltiptext">Select all equipment you have access to</span>
     </label>
-    <div class="checkbox-group">
-      <div class="checkbox-row">
-        <label class="checkbox-inline"><input type="checkbox" id="equipDumbbells" checked> 🏋️ Dumbbells</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipBarbell" checked> 💪 Barbell</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipBands"> 🎀 Resistance Bands</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipKettlebells"> ⚫ Kettlebells</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipMachines"> 🤖 Weight Machines</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipCardio"> 🏃 Cardio Equipment</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipBodyweight" checked> 🧘 Bodyweight Only</label>
-        <label class="checkbox-inline"><input type="checkbox" id="equipPullupBar"> 📊 Pull-up Bar</label>
+      <div class="options-two-column">
+        <div class="options-column">
+      <label class="checkbox-inline"><input type="checkbox" id="equipDumbbells" checked> 🏋️ Dumbbells</label>
+      <label class="checkbox-inline"><input type="checkbox" id="equipBarbell" checked> 💪 Barbell</label>
+      <label class="checkbox-inline"><input type="checkbox" id="equipBands"> 🎀 Resistance Bands</label>
       </div>
+      <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
+      <label class="checkbox-inline"><input type="checkbox" id="equipKettlebells"> ⚫ Kettlebells</label>
+      <label class="checkbox-inline"><input type="checkbox" id="equipMachines"> 🤖 Weight Machines</label>
+      <label class="checkbox-inline"><input type="checkbox" id="equipCardio"> 🏃 Cardio Equipment</label>
+      <label class="checkbox-inline"><input type="checkbox" id="equipBodyweight" checked> 🧘 Bodyweight Only</label>
     </div>
   </div>
   <div class="form-group">
@@ -131,16 +127,17 @@ Create personalized workout routines designed for your specific goals, fitness l
       Focus Areas (Optional)
       <span class="tooltiptext">Select specific muscle groups or body areas you want to emphasize</span>
     </label>
-    <div class="checkbox-group">
-      <div class="checkbox-row">
+      <div class="options-two-column">
+        <div class="options-column">
         <label class="checkbox-inline"><input type="checkbox" id="focusChest"> 💪 Chest</label>
         <label class="checkbox-inline"><input type="checkbox" id="focusBack"> 🔙 Back</label>
         <label class="checkbox-inline"><input type="checkbox" id="focusLegs"> 🦵 Legs</label>
+      </div>
+      <div class="options-column" style="border-left: 1px solid #444; padding-left: 15px;">
         <label class="checkbox-inline"><input type="checkbox" id="focusArms"> 💪 Arms</label>
         <label class="checkbox-inline"><input type="checkbox" id="focusShoulders"> 🏔️ Shoulders</label>
         <label class="checkbox-inline"><input type="checkbox" id="focusCore"> 🎯 Core/Abs</label>
       </div>
-    </div>
   </div>
   <div class="form-group">
     <label for="limitations" class="tooltip">

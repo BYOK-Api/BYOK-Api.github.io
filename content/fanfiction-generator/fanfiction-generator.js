@@ -39,17 +39,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showGeneralWarning() {
         const overlay = document.getElementById('generalWarningOverlay');
+        if (!overlay) {
+            console.error('General warning overlay not found in DOM');
+            return;
+        }
         overlay.style.display = 'flex';
         overlay.classList.add('show');
     }
-
-    // Make showGeneralWarning globally available for the review button
-    window.showGeneralWarning = showGeneralWarning;
 
     function acknowledgeGeneralWarning() {
         generalWarningAcknowledged = true;
         sessionStorage.setItem('generalWarningAcknowledged', 'true');
         const overlay = document.getElementById('generalWarningOverlay');
+        if (!overlay) {
+            console.error('General warning overlay not found in DOM');
+            return;
+        }
         overlay.style.display = 'none';
         overlay.classList.remove('show');
     }
@@ -57,6 +62,15 @@ document.addEventListener('DOMContentLoaded', function () {
     function showAdultWarning(formData) {
         pendingFormData = formData;
         const overlay = document.getElementById('adultWarningOverlay');
+        if (!overlay) {
+            console.error('Adult warning overlay not found in DOM');
+            // Continue anyway if overlay is missing
+            if (pendingFormData) {
+                generateFanFictionContent(pendingFormData);
+                pendingFormData = null;
+            }
+            return;
+        }
         overlay.style.display = 'flex';
         overlay.classList.add('show');
     }
@@ -65,8 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
         adultContentConfirmed = true;
         sessionStorage.setItem('adultContentConfirmed', 'true');
         const overlay = document.getElementById('adultWarningOverlay');
-        overlay.style.display = 'none';
-        overlay.classList.remove('show');
+        if (overlay) {
+            overlay.style.display = 'none';
+            overlay.classList.remove('show');
+        }
 
         if (pendingFormData) {
             generateFanFictionContent(pendingFormData);
@@ -76,10 +92,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function declineAdultContent() {
         const overlay = document.getElementById('adultWarningOverlay');
-        overlay.style.display = 'none';
-        overlay.classList.remove('show');
+        if (overlay) {
+            overlay.style.display = 'none';
+            overlay.classList.remove('show');
+        }
         pendingFormData = null;
     }
+
+    // Make functions globally available for inline onclick handlers
+    window.showGeneralWarning = showGeneralWarning;
+    window.acknowledgeGeneralWarning = acknowledgeGeneralWarning;
+    window.acceptAdultContent = acceptAdultContent;
+    window.declineAdultContent = declineAdultContent;
 
     async function generateFanFiction() {
         const apiKey = document.getElementById('ai-key').value.trim();
@@ -395,9 +419,9 @@ Write a complete, engaging story that brings these characters together in a mean
         }
     }
 
-    function copyResult() {
+    function copyResult(event) {
         utils.copyToClipboard(currentResult).then(success => {
-            if (success) {
+            if (success && event) {
                 const button = event.target;
                 const originalText = button.innerHTML;
                 button.innerHTML = '✅ Copied!';
