@@ -181,7 +181,6 @@
             const searchInput = document.getElementById('sectionSearch');
             const searchResults = document.getElementById('searchResults');
             const servicesGrid = document.getElementById('servicesGrid');
-            const serviceCards = Array.from(servicesGrid.querySelectorAll('.service-card'));
             const tagsFilter = document.getElementById('tagsFilter');
             const categoryFilter = document.getElementById('categoryFilter');
             const sortOptions = document.getElementById('sortOptions');
@@ -189,6 +188,14 @@
             // Filter toggle elements
             const filterToggle = document.getElementById('filterToggle');
             const filterControls = document.getElementById('filterControls');
+
+            // Check if required elements exist
+            if (!searchInput || !servicesGrid || !tagsFilter || !categoryFilter || !sortOptions) {
+                console.error('Required search/filter elements not found');
+                return;
+            }
+
+            const serviceCards = Array.from(servicesGrid.querySelectorAll('.service-card'));
 
             let noResultsDiv = null;
 
@@ -339,6 +346,10 @@
 
             // Function to apply all filters and sorting
             function applyFiltersAndSort() {
+                if (!searchInput || !tagsFilter || !categoryFilter || !sortOptions) {
+                    return;
+                }
+
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 const selectedTag = tagsFilter.value;
                 const selectedCategory = categoryFilter.value;
@@ -347,23 +358,23 @@
                 // First, filter the cards
                 let visibleCards = serviceCards.filter(card => {
                     // Search filter
-                    const title = card.getAttribute('data-title');
-                    const description = card.getAttribute('data-description');
-                    const tags = card.getAttribute('data-tags');
+                    const title = (card.getAttribute('data-title') || '').toLowerCase();
+                    const description = (card.getAttribute('data-description') || '').toLowerCase();
+                    const tags = (card.getAttribute('data-tags') || '').toLowerCase();
                     const matchesSearch = searchTerm === '' || 
                         title.includes(searchTerm) || 
                         description.includes(searchTerm) || 
                         tags.includes(searchTerm);
 
                     // Tag filter
-                    const tagList = card.getAttribute('data-tag-list');
+                    const tagList = (card.getAttribute('data-tag-list') || '').toLowerCase();
                     const matchesTag = selectedTag === 'all' || 
-                        (tagList && tagList.toLowerCase().includes(selectedTag));
+                        (tagList && tagList.includes(selectedTag));
 
                     // Category filter
-                    const categories = card.getAttribute('data-categories');
+                    const categories = (card.getAttribute('data-categories') || '').toLowerCase();
                     const matchesCategory = selectedCategory === 'all' || 
-                        (categories && categories.toLowerCase().includes(selectedCategory));
+                        (categories && categories.includes(selectedCategory));
 
                     return matchesSearch && matchesTag && matchesCategory;
                 });
@@ -373,13 +384,13 @@
                     visibleCards.sort((a, b) => {
                         switch (selectedSort) {
                             case 'name-asc':
-                                return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'));
+                                return (a.getAttribute('data-title') || '').localeCompare(b.getAttribute('data-title') || '');
                             case 'name-desc':
-                                return b.getAttribute('data-title').localeCompare(a.getAttribute('data-title'));
+                                return (b.getAttribute('data-title') || '').localeCompare(a.getAttribute('data-title') || '');
                             case 'date-desc':
-                                return b.getAttribute('data-date').localeCompare(a.getAttribute('data-date'));
+                                return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
                             case 'date-asc':
-                                return a.getAttribute('data-date').localeCompare(b.getAttribute('data-date'));
+                                return (a.getAttribute('data-date') || '').localeCompare(b.getAttribute('data-date') || '');
                             default:
                                 return 0;
                         }
@@ -396,26 +407,37 @@
                 });
 
                 // Update search results display
-                searchResults.innerHTML = '';
+                if (searchResults) {
+                    searchResults.innerHTML = '';
+                }
                 if (noResultsDiv) noResultsDiv.remove();
+
+                // Show "no results" message if no cards are visible
+                if (visibleCards.length === 0) {
+                    noResultsDiv = document.createElement('div');
+                    noResultsDiv.className = 'no-results-message';
+                    noResultsDiv.innerHTML = '<p>No items found matching your criteria. Try adjusting your filters.</p>';
+                    servicesGrid.appendChild(noResultsDiv);
+                }
             }
 
             // Event listeners
-            searchInput.addEventListener('input', applyFiltersAndSort);
-            tagsFilter.addEventListener('change', applyFiltersAndSort);
-            categoryFilter.addEventListener('change', applyFiltersAndSort);
-            sortOptions.addEventListener('change', applyFiltersAndSort);
-
-            searchInput.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    this.value = '';
-                    tagsFilter.value = 'all';
-                    categoryFilter.value = 'all';
-                    sortOptions.value = 'default';
-                    applyFiltersAndSort();
-                    this.blur();
-                }
-            });
+            if (searchInput) {
+                searchInput.addEventListener('input', applyFiltersAndSort);
+                searchInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        this.value = '';
+                        if (tagsFilter) tagsFilter.value = 'all';
+                        if (categoryFilter) categoryFilter.value = 'all';
+                        if (sortOptions) sortOptions.value = 'default';
+                        applyFiltersAndSort();
+                        this.blur();
+                    }
+                });
+            }
+            if (tagsFilter) tagsFilter.addEventListener('change', applyFiltersAndSort);
+            if (categoryFilter) categoryFilter.addEventListener('change', applyFiltersAndSort);
+            if (sortOptions) sortOptions.addEventListener('change', applyFiltersAndSort);
         });
     </script>
     {{ end }}

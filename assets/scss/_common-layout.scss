@@ -226,10 +226,13 @@
 .search-filter {
     max-width: 100%;
     margin-bottom: 7px;
+    display: flex;
+    justify-content: center;
 }
 
 .search-input {
-    width: 60%;
+    width: 100%;
+    max-width: 600px;
     padding: 14px 20px;
     font-size: 1rem;
     border: 2px solid var(--accent-soft-border);
@@ -239,6 +242,10 @@
     outline: none;
     transition: all 0.3s ease;
     box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        max-width: 100%;
+    }
 
     &:focus {
         border-color: var(--accent);
@@ -256,7 +263,11 @@
     margin-top: 10px;
     font-size: 0.9rem;
     opacity: 0.9;
-    display: none;
+    color: rgba(255, 255, 255, 0.7);
+
+    &:not(:empty) {
+        display: block;
+    }
 }
 
 /* Filter Toggle Button - Only show on mobile (under 768px) */
@@ -457,6 +468,23 @@
     gap: 12px;
     margin-bottom: 50px;
     justify-items: stretch;
+}
+
+/* No Results Message */
+.no-results-message {
+    grid-column: 1 / -1; /* Span all columns */
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+
+    p {
+        margin: 0;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 12px;
+        border: 2px solid var(--accent-soft-border);
+    }
 }
 
 .service-card {
